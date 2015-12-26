@@ -49,6 +49,21 @@ This plugin add 2 new classes (TimerManager and Timer) to the PIXI namespace, an
 
 When a timer is ended, the instance will kept in the memory and in the timerManager, but you can prevent this if you set .expire = true in the timer.
 
+#### Using AnimationLoop
+```js
+var renderer = new PIXI.autoDetectRenderer(800,600);
+document.body.appendChild(renderer.view);
+
+var animationLoop = new PIXI.AnimationLoop(renderer);
+
+//Add a postrender or prerender event to add the timer.update in the raf.
+animationLoop.on('postrender', function(){
+  PIXI.timer.update(this.delta); //Pass as param the delta time to PIXI.timer.update
+});
+
+animationLoop.start();
+```
+
 ### Events
 TimerManager extends from [PIXI.utils.EventEmitter](https://github.com/primus/eventemitter3), and emit some events: start, end, repeat, update and stop. More info: [Node.js Events](https://nodejs.org/api/events.html#events_emitter_emit_event_arg1_arg2)
 
