@@ -22,7 +22,6 @@
 
     var timer = PIXI.timer.createTimer(1000);
     timer.repeat = 15;
-    
     timer.on('start', function(elapsed){console.log('start')});
     timer.on('end', function(elapsed){console.log('end', elapsed)});
     timer.on('repeat', function(elapsed, repeat){console.log('repeat', repeat)});
