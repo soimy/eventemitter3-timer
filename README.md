@@ -134,12 +134,51 @@ timer.on('end', function(elapsed){console.log('end', elapsed)});
 timer.start();
 ```
 
-
 ## API
 ### TimerManager
 #### constructor()
 The constructor
+#### .timers
+An array with all the timers created
+#### .update( delta )
+The update method, make sure it is in the raf. You can pass a fixed delta time (like 0.016), your own calculated delta, or nothing. (Delta time in seconds not milliseconds).
+#### .removeTimer( timer )
+Remove a timer from the .timers array in the next frame.
+#### .addTimer( timer )
+Normally you want to use .createTimer(time) to create a timer, but, you can also create a timer with new PIXI.Timer(time) and add it in the manager with this method.  
+#### .createTimer( time )
+Return a new instance of PIXI.Timer managed by this timerManager.
 
 ### Timer
 #### constructor()
 The constructor
+#### .time
+The timer will count to this value
+#### .manager
+The TimerManager instance who manage this timer (maybe you want to use different managers for each scene)
+#### .active
+Read only, it's the state of the timer. It's different to the .isStarted. For example: if the timer has a delay, and you use .start(), .isStarted will be false, but .active will be true.
+#### .isStarted
+Return as boolean if the count is started.
+#### .isEnded
+Return as boolean if the count is ended.
+#### .expire
+Set to true if you want to delete the instance of this timer when the timer will end. (false by default)
+#### .delay
+Set a delay in milliseconds before the timer's count.
+#### .repeat
+Set to repeat N times the count
+#### .loop
+Set true to repeat the count forever
+#### .addTo( manager )
+Add this timer instance to a timerManager
+#### .remove()
+Remove this instance in the next frame
+#### .start()
+Active this timer, and start the count or the delay.
+#### .stop()
+Disable the timer, stopping the count. If you use .start() after .stop() the count will be resumed.
+#### .reset()
+Reset the timer to the initial state. Values like .time, .loop, .repeat, etcetera will be kept.
+#### .update( delta, deltaMS )
+The update method, you don't need to use this method, the manager will do this internally.
