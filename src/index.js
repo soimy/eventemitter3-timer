@@ -2,11 +2,15 @@ import PIXI from'pixi.js';
 import TimerManager from './TimerManager';
 import Timer from './Timer';
 
-if(!PIXI.TimerManager){
-  let timerManager = new TimerManager();
+let timer = {
+  TimerManager : TimerManager,
+  Timer : Timer
+};
 
-  PIXI.TimerManager = TimerManager;
-  PIXI.Timer = Timer;
-  PIXI.timer = timerManager;
+if(!PIXI.timerManager){
+  PIXI.timerManager = new TimerManager();
+
+  PIXI.timer = timer;
 }
-export default PIXI.timer;
+
+export default timer;

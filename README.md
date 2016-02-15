@@ -14,7 +14,7 @@ If you use Browserify or Webpack you can use pixi-timer like this:
 
 ```js
 var PIXI = require('pixi.js');
-var timerManager = require('pixi-timer'); //pixi-timer is added automatically to the PIXI namespace
+var timer = require('pixi-timer'); //pixi-timer is added automatically to the PIXI namespace
 
 //create PIXI renderer
 var renderer = new PIXI.autoDetectRenderer(800,600);
@@ -24,7 +24,7 @@ var stage = new PIXI.Container();
 function animate(){
   window.requestAnimationFrame(animate);
   renderer.render(stage);
-  PIXI.timer.update();
+  PIXI.timerManager.update();
 }
 animate();
 ```
@@ -39,13 +39,13 @@ var stage = new PIXI.Container();
 function animate(){
   window.requestAnimationFrame(animate);
   renderer.render(stage);
-  PIXI.timer.update();
+  PIXI.timerManager.update();
 }
 animate();
 ```
 
 ### How it works
-This plugin add 2 new classes (TimerManager and Timer) to the PIXI namespace, and create an instance for TimerManager in PIXI.timer, but all you need is add PIXI.timer.update() in your requestAnimationFrame. You can pass as params for `PIXI.timer.update(delta)` your own delta time, if you don't pass anything it will be calculated internally, for max accuracy calculating the delta time you can use the [AnimationLoop](https://github.com/Nazariglez/pixi-animationloop/) plugin.
+This plugin add a new namespace named `timer`to the PIXI namespace, and the timer namespace has 2 new classes, TimerManager and Timer, and create an instance for TimerManager in PIXI.timerManager, but all you need is add PIXI.timerManager.update() in your requestAnimationFrame. You can pass as params for `PIXI.timerManager.update(delta)` your own delta time, if you don't pass anything it will be calculated internally, for max accuracy calculating the delta time you can use the [AnimationLoop](https://github.com/Nazariglez/pixi-animationloop/) plugin.
 
 When a timer is ended, the instance will kept in the memory and in the timerManager, but you can prevent this if you set .expire = true in the timer.
 
@@ -58,7 +58,7 @@ var animationLoop = new PIXI.AnimationLoop(renderer);
 
 //Add a postrender or prerender event to add the timer.update in the raf.
 animationLoop.on('postrender', function(){
-  PIXI.timer.update(this.delta); //Pass as param the delta time to PIXI.timer.update
+  PIXI.timerManager.update(this.delta); //Pass as param the delta time to PIXI.timerManager.update
 });
 
 animationLoop.start();
@@ -76,7 +76,7 @@ TimerManager extends from [PIXI.utils.EventEmitter](https://github.com/primus/ev
 ### Some examples
 Create a timer to count to 1 second, and repeat the count 15 times.
 ```js
-var timer = PIXI.timer.createTimer(1000);
+var timer = PIXI.timerManager.createTimer(1000);
 timer.repeat = 15;
 
 timer.on('start', function(elapsed){console.log('start')});
@@ -88,7 +88,7 @@ timer.start();
 
 Create a timer to count to 100 ms and repeat forever.
 ```js
-var timer = PIXI.timer.createTimer(100);
+var timer = PIXI.timerManager.createTimer(100);
 timer.loop = true;
 
 timer.on('start', function(elapsed){console.log('start')});
@@ -99,7 +99,7 @@ timer.start();
 
 Create a timer to count one minute and just end.
 ```js
-var timer = PIXI.timer.createTimer(1000*60);
+var timer = PIXI.timerManager.createTimer(1000*60);
 timer.on('start', function(elapsed){console.log('start')});
 timer.on('end', function(elapsed){console.log('end', elapsed)});
 
@@ -108,7 +108,7 @@ timer.start();
 
 Create a timer to count to 5 seconds, and when the count it's ended, reset it and count to 10 seconds.
 ```js
-var timer = PIXI.timer.createTimer(5000);
+var timer = PIXI.timerManager.createTimer(5000);
 timer.on('start', function(elapsed){console.log('start')});
 timer.on('end', function(elapsed){
   if(elapsed === 5000){
@@ -126,7 +126,7 @@ timer.start();
 
 Create a timer to count to 5 seconds, but with 2 seconds as delay.
 ```js
-var timer = PIXI.timer.createTimer(5000);
+var timer = PIXI.timerManager.createTimer(5000);
 timer.delay = 2000;
 timer.on('start', function(elapsed){console.log('start')});
 timer.on('end', function(elapsed){console.log('end', elapsed)});

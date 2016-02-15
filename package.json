@@ -1,6 +1,6 @@
 {
   "name": "pixi-timer",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "pixi-timer is a plugin for Pixi.js v3.0.8 or higher to create time events easily.",
   "main": "./build/pixi-timer.js",
   "author": "Nazariglez <nazari.nz@gmail.com> (http://www.nazariglez.com)",
