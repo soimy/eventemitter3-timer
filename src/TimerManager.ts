@@ -49,7 +49,9 @@ export default class TimerManager {
 
     private _remove(timer: Timer): void {
         const index = this.timers.indexOf(timer);
-        if (index > 0) this.timers.splice(index, 1);
+        if (index > -1) {
+            this.timers.splice(index, 1);
+        }
     }
 
     private _getDeltaMS(): number {
