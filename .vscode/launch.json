@@ -25,10 +25,10 @@
             "name": "TS:Mocha Tests",
             "program": "${workspaceRoot}/node_modules/mocha/bin/_mocha",
             "args": [
-                "--compilers",
-                "ts:ts-node/register",
+                "--require",
+                "ts-node/register",
                 "--timeout",
-                "10000",
+                "100000",
                 "--colors",
                 "${workspaceRoot}/test/*.spec.ts"
                 // "${workspaceRoot}/test/maxrects_bin.spec.js"
