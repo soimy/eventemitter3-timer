@@ -1,11 +1,16 @@
 pixi-timer
 ======================
 
-pixi-timer is a plugin for Pixi.js v4 to create time events easily.
+[![Build Status](https://travis-ci.org/soimy/pixi-timer.svg?branch=master)](https://travis-ci.org/soimy/pixi-timer)
+[![Coverage Status](https://coveralls.io/repos/github/soimy/pixi-timer/badge.svg)](https://coveralls.io/github/soimy/pixi-timer)
+[![TypeScript](https://badges.frapsoft.com/typescript/code/typescript.svg?v=101)](https://github.com/ellerbrock/typescript-badges/)
+
+`pixi-timer` is a plugin for Pixi.js v4 to create time events easily.
 
 ## Installation
-```
-npm install pixi-timer
+
+```bash
+npm install pixi-timer-2
 ```
 
 ## Usage
@@ -13,13 +18,12 @@ npm install pixi-timer
 If you use Browserify or Webpack you can use pixi-timer like this:
 
 ```js
-var PIXI = require('pixi.js');
-var timer = require('pixi-timer'); //pixi-timer is added automatically to the PIXI namespace
+const PIXI = require('pixi.js');
+const timer = require('pixi-timer-2'); //pixi-timer is added automatically to the PIXI namespace
 
-//create PIXI renderer
-var renderer = new PIXI.autoDetectRenderer(800,600);
-document.body.appendChild(renderer.view);
-var stage = new PIXI.Container();
+//create PIXI Application
+const app = new PIXI.Application(800,600);
+document.body.appendChild(app.view);
 
 function animate(){
   window.requestAnimationFrame(animate);
