@@ -1,7 +1,7 @@
 pixi-timer
 ======================
 
-pixi-timer is a plugin for Pixi.js v3.0.8 or higher to create time events easily.
+pixi-timer is a plugin for Pixi.js v4 to create time events easily.
 
 ## Installation
 ```
