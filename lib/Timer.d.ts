@@ -124,7 +124,8 @@ export default class Timer extends EventEmitter {
      */
     reset(): Timer;
     /**
-     * Increment timer's time. Better put this in main logic loop.
+     * Increment timer's time. Should be put in main logic loop.
+     * Using `TimerManager.update()` method instead is recommended.
      *
      * @param {number} delta The amount of increment in ms.
      * @returns {void}

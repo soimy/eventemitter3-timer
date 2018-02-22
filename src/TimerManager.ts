@@ -35,6 +35,13 @@ export default class TimerManager {
             delta = this._getDeltaMS();
         }
 
+        if (this._timersToDelete.length) {
+            for (const timerToDel of this._timersToDelete) {
+                this._remove(timerToDel);
+            }
+            this._timersToDelete.length = 0;
+        }
+
         for (const timer of this.timers) {
             if (timer.active) {
                 timer.update(delta);
@@ -44,12 +51,6 @@ export default class TimerManager {
             }
         }
 
-        if (this._timersToDelete.length) {
-            for (const timerToDel of this._timersToDelete) {
-                this._remove(timerToDel);
-            }
-            this._timersToDelete.length = 0;
-        }
     }
 
     /**
