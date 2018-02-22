@@ -1,11 +1,21 @@
 import Timer from "./Timer";
 
+/**
+ * Manager class for Timers
+ *
+ * @export
+ * @class TimerManager
+ */
 export default class TimerManager {
     public timers: Timer[];
 
     private _timersToDelete: Timer[];
     private _last: number;
 
+    /**
+     * Creates an instance of TimerManager.
+     * @memberof TimerManager
+     */
     constructor() {
         this.timers = [];
         this._timersToDelete = [];
@@ -13,6 +23,13 @@ export default class TimerManager {
         this._last = 0;
     }
 
+    /**
+     * Increment all managed timers' time.
+     * Better to use this method instead of `timers.update()` for centralized control.
+     *
+     * @param {number} [delta] The increment amount in ms. Omit to use internal deltams.
+     * @memberof TimerManager
+     */
     public update(delta?: number): void {
         if (!delta && delta !== 0) {
             delta = this._getDeltaMS();
@@ -22,7 +39,7 @@ export default class TimerManager {
             if (timer.active) {
                 timer.update(delta);
                 if (timer.isEnded && timer.expire) {
-                    timer.remove();
+                    this.removeTimer(timer);
                 }
             }
         }
@@ -35,16 +52,40 @@ export default class TimerManager {
         }
     }
 
+    /**
+     * Remove timer from this timerManager.
+     *
+     * @param {Timer} timer The timer to be removed.
+     * @memberof TimerManager
+     */
     public removeTimer(timer: Timer): void {
         this._timersToDelete.push(timer);
+        timer.timerManager = null;
     }
 
+    /**
+     * Add timer to this timerManager, and remove timer from it's original timerManager.
+     *
+     * @param {Timer} timer The timer to be added.
+     * @memberof TimerManager
+     */
     public addTimer(timer: Timer): void {
         this.timers.push(timer);
+        if (timer.timerManager) timer.timerManager.removeTimer(timer);
+        timer.timerManager = this;
     }
 
+    /**
+     * Create a new timer under this timerManager.
+     *
+     * @param {number} time time of newly created timer.
+     * @returns {Timer} The newly created timer.
+     * @memberof TimerManager
+     */
     public createTimer(time: number): Timer {
-        return new Timer(time);
+        const timer = new Timer(time);
+        this.addTimer(timer);
+        return timer;
     }
 
     private _remove(timer: Timer): void {
