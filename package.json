@@ -19,6 +19,7 @@
   },
   "scripts": {
     "build": "tsc",
+    "build:watch": "tsc --watch",
     "test": "mocha --require ts-node/register --reporter spec test/**/*.ts",
     "cover": "node_modules/istanbul/lib/cli.js cover node_modules/mocha/bin/_mocha -- --require ts-node/register -R spec --timeout 30000 test/**/*.ts"
   },
