@@ -11,13 +11,13 @@ describe("Timer", () => {
         let num = 10;
         let prevNum: number;
 
-        it("TimerManager is created", () => {
+        it("Global TimerManager is created", () => {
             prevNum = manager.timers.length;
             timers.push(new Timer(1000));
             expect(manager).to.not.equal(null);
         });
 
-        it("Timer count is 1", () => {
+        it("Timer count is correct", () => {
             expect(manager.timers.length).to.equal(prevNum + 1);
         });
 
@@ -117,6 +117,15 @@ describe("Timer", () => {
             expect(timer.isEnded).to.equal(false);
             timer.update(500);
             expect(timer.isEnded).to.equal(true);
+        });
+
+        it("Timer can be expired", () => {
+            timer.expire = true;
+            timer.delay = 0;
+            timer.reset();
+            timer.start();
+            timer.timerManager.update(500);
+            expect(timer.timerManager).to.equal(null);
         });
     });
 });
