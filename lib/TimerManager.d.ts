@@ -1,11 +1,11 @@
-import Timer from "./Timer";
+import { Timer } from "./Timer";
 /**
  * Manager class for Timers
  *
  * @export
  * @class TimerManager
  */
-export default class TimerManager {
+export declare class TimerManager {
     timers: Timer[];
     private _timersToDelete;
     private _last;

@@ -1,4 +1,4 @@
-import TimerManager from "./TimerManager";
+import { TimerManager } from "./TimerManager";
 import { EventEmitter } from "eventemitter3";
 /**
  * A Simple Timer class extending [EventEmitter3](https://github.com/primus/eventemitter3)
@@ -11,7 +11,7 @@ import { EventEmitter } from "eventemitter3";
  * @class Timer
  * @extends {EventEmitter}
  */
-export default class Timer extends EventEmitter {
+export declare class Timer extends EventEmitter {
     /**
      * The global TimerManager which is default to all newly created timers.
      *
