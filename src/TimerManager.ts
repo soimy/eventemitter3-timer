@@ -25,6 +25,7 @@ export default class TimerManager {
 
     /**
      * Increment all managed timers' time.
+     *
      * Better to use this method instead of `timers.update()` for centralized control.
      *
      * @param {number} [delta] The increment amount in ms. Omit to use internal deltams.

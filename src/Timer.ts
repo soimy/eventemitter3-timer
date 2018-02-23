@@ -2,7 +2,11 @@ import TimerManager from "./TimerManager";
 import { EventEmitter } from "eventemitter3";
 
 /**
- * A Simple Timer class extending [EventEmitter3]{@link https://github.com/primus/eventemitter3 }
+ * A Simple Timer class extending [EventEmitter3](https://github.com/primus/eventemitter3)
+ *
+ * Auther: Shen Yiming(soimy@163.com)
+ *
+ * Repo: https://github.com/soimy/pixi-timer
  *
  * @export
  * @class Timer
@@ -103,6 +107,7 @@ export default class Timer extends EventEmitter {
 
     /**
      * Creates an instance of Timer.
+     *
      * Newly created timers will be default to be added to the global timerManager.
      * Can manually create TimerManager and assign timers.
      *
@@ -143,6 +148,7 @@ export default class Timer extends EventEmitter {
 
     /**
      * Start timer from it's current time.
+     *
      * A `started` event will be emitted.
      *
      * @returns {Timer} Return self for chainable method.
@@ -155,6 +161,7 @@ export default class Timer extends EventEmitter {
 
     /**
      * Stop timer, current time stop updated.
+     *
      * A `ended` event will be emitted.
      *
      * @returns {Timer} Return self for chainable method.
@@ -183,6 +190,7 @@ export default class Timer extends EventEmitter {
 
     /**
      * Increment timer's time. Should be put in main logic loop.
+     *
      * Using `TimerManager.update()` method instead is recommended.
      *
      * @param {number} delta The amount of increment in ms.
