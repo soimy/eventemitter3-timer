@@ -1,6 +1,5 @@
-import Timer from "../lib/Timer";
+import { Timer, TimerManager } from "../lib/index";
 import { expect } from "chai";
-import TimerManager from "../lib/TimerManager";
 
 describe("TimerManager", () => {
     const manager: TimerManager = new TimerManager();
