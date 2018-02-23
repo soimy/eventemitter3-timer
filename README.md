@@ -60,6 +60,7 @@ app.ticker.add(() => Timer.timemanager.update(app.ticker.elapsedMS), this);
 ```
 
 ### How it works
+
 This plugin add a new namespace named `EE3Timer` if using prebuilt minified js, and exposed 2 new classes, `TimerManager` and `Timer`.
 
 > `Timer` is the main class for timers,
@@ -164,4 +165,5 @@ timer.start();
 ```
 
 ## API
-See: 
+[Timer](https://soimy.github.io/eventemitter3-timer/modules/_timer_.html)
+[TimerManager](https://soimy.github.io/eventemitter3-timer/modules/_timermanager_.html)

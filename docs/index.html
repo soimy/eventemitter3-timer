@@ -3,7 +3,7 @@
 <head>
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<title>pixi-timer-2</title>
+	<title>eventemitter3-timer</title>
 	<meta name="description" content="">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link rel="stylesheet" href="assets/css/main.css">
@@ -22,7 +22,7 @@
 						<li class="state loading">Preparing search index...</li>
 						<li class="state failure">The search index is not available</li>
 					</ul>
-					<a href="index.html" class="title">pixi-timer-2</a>
+					<a href="index.html" class="title">eventemitter3-timer</a>
 				</div>
 				<div class="table-cell" id="tsd-widgets">
 					<div id="tsd-filter">
@@ -56,7 +56,7 @@
 					<a href="globals.html">Globals</a>
 				</li>
 			</ul>
-			<h1> pixi-timer-2</h1>
+			<h1> eventemitter3-timer</h1>
 		</div>
 	</div>
 </header>
@@ -64,61 +64,76 @@
 	<div class="row">
 		<div class="col-8 col-content">
 			<div class="tsd-panel tsd-typography">
-				<h1 id="pixi-timer">pixi-timer</h1>
-				<p><a href="https://travis-ci.org/soimy/pixi-timer"><img src="https://travis-ci.org/soimy/pixi-timer.svg?branch=master" alt="Build Status"></a>
-					<a href="https://coveralls.io/github/soimy/pixi-timer"><img src="https://coveralls.io/repos/github/soimy/pixi-timer/badge.svg" alt="Coverage Status"></a>
+				<h1 id="eventemitter3-timer">EventEmitter3-Timer</h1>
+				<p><a href="https://travis-ci.org/soimy/eventemitter3-timer"><img src="https://travis-ci.org/soimy/eventemitter3-timer.svg?branch=master" alt="Build Status"></a>
+					<a href="https://coveralls.io/github/soimy/eventemitter3-timer?branch=master"><img src="https://coveralls.io/repos/github/soimy/eventemitter3-timer/badge.svg?branch=master" alt="Coverage Status"></a>
 				<a href="http://definitelytyped.org"><img src="http://definitelytyped.org/badges/standard-flat.svg" alt="TypeScript definitions on DefinitelyTyped"></a></p>
-				<p><code>pixi-timer</code> is a plugin for Pixi.js v4 to create time events easily.</p>
+				<p><code>EventEmitter3-Timer</code> is a plugin extend <a href="https://github.com/primus/eventemitter3">EventEmitter3</a> to create time events easily.
+				The origin purpose of this module is to add timer events into <code>PIXI.js</code> event system which is also extends <code>EventEmitter3</code>. There was a great repo <a href="https://github.com/Nazariglez/pixi-timer">pixi-timer</a> but stop updated since 2016 and can&#39;t work with latest PIXI v4+. So here it is, a new Timer for <code>PIXI.js</code> or any other code work with <code>EventEmitter3</code>, with almost the same API with <code>pixi-timer</code> but with optimized workflow and support of <code>typescript</code> (Because the whole module is written in typescript).</p>
 				<h2 id="installation">Installation</h2>
-				<pre><code class="lang-bash">npm install pixi-timer-2
+				<pre><code class="lang-bash">npm install eventemitter3-timer
 </code></pre>
 				<h2 id="usage">Usage</h2>
 				<h3 id="browserify-webpack">Browserify - Webpack</h3>
-				<p>If you use Browserify or Webpack you can use pixi-timer like this:</p>
-				<pre><code class="lang-js"><span class="hljs-keyword">const</span> PIXI = <span class="hljs-built_in">require</span>(<span class="hljs-string">'pixi.js'</span>);
-<span class="hljs-keyword">const</span> timer = <span class="hljs-built_in">require</span>(<span class="hljs-string">'pixi-timer-2'</span>); <span class="hljs-comment">//pixi-timer is added automatically to the PIXI namespace</span>
+				<p>If you use Browserify or Webpack you can use timer like this:</p>
+				<pre><code class="lang-ts"><span class="hljs-keyword">import</span> { Timer, TimerManager } <span class="hljs-keyword">from</span> <span class="hljs-string">"eventemitter3-timer"</span>;
 
-<span class="hljs-comment">//create PIXI Application</span>
+<span class="hljs-comment">//create PIXI application</span>
 <span class="hljs-keyword">const</span> app = <span class="hljs-keyword">new</span> PIXI.Application(<span class="hljs-number">800</span>,<span class="hljs-number">600</span>);
 <span class="hljs-built_in">document</span>.body.appendChild(app.view);
 
-<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">animate</span>(<span class="hljs-params"></span>)</span>{
-  <span class="hljs-built_in">window</span>.requestAnimationFrame(animate);
-  renderer.render(stage);
-  PIXI.timerManager.update();
-}
-animate();
+<span class="hljs-comment">//create timer</span>
+<span class="hljs-keyword">const</span> timer = <span class="hljs-keyword">new</span> Timer(<span class="hljs-number">1000</span>); <span class="hljs-comment">// in ms</span>
+timer.on(<span class="hljs-string">"end"</span>, <span class="hljs-function"><span class="hljs-params">()</span> =&gt;</span> {
+  <span class="hljs-built_in">console</span>.log(<span class="hljs-string">"Timer ended."</span>);
+});
+timer.start();
+
+<span class="hljs-comment">//increment timer in ticker loop</span>
+app.ticker.add(<span class="hljs-function"><span class="hljs-params">()</span> =&gt;</span> Timer.timemanager.update(app.ticker.elapsedMS), <span class="hljs-keyword">this</span>);
+
 </code></pre>
 				<h3 id="prebuilt-files">Prebuilt files</h3>
-				<pre><code class="lang-js"><span class="hljs-keyword">var</span> renderer = <span class="hljs-keyword">new</span> PIXI.autoDetectRenderer(<span class="hljs-number">800</span>,<span class="hljs-number">600</span>);
-<span class="hljs-built_in">document</span>.body.appendChild(renderer.view);
-<span class="hljs-keyword">var</span> stage = <span class="hljs-keyword">new</span> PIXI.Container();
+				<p>Prebuilt minified js expose a <code>EE3Timer</code> namespace.</p>
+				<pre><code class="lang-js"><span class="hljs-comment">//create PIXI application</span>
+<span class="hljs-keyword">const</span> app = <span class="hljs-keyword">new</span> PIXI.Application(<span class="hljs-number">800</span>,<span class="hljs-number">600</span>);
+<span class="hljs-built_in">document</span>.body.appendChild(app.view);
 
-<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">animate</span>(<span class="hljs-params"></span>)</span>{
-  <span class="hljs-built_in">window</span>.requestAnimationFrame(animate);
-  renderer.render(stage);
-  PIXI.timerManager.update();
-}
-animate();
+<span class="hljs-keyword">const</span> timer = <span class="hljs-keyword">new</span> EE3Timer.Timer(<span class="hljs-number">1000</span>); <span class="hljs-comment">// in ms</span>
+timer.on(<span class="hljs-string">"end"</span>, () =&gt; {
+  <span class="hljs-built_in">console</span>.log(<span class="hljs-string">"Timer ended."</span>);
+});
+timer.start();
+
+<span class="hljs-comment">//increment timer in ticker loop</span>
+app.ticker.add(<span class="hljs-function"><span class="hljs-params">()</span> =&gt;</span> Timer.timemanager.update(app.ticker.elapsedMS), <span class="hljs-keyword">this</span>);
+
 </code></pre>
 				<h3 id="how-it-works">How it works</h3>
-				<p>This plugin add a new namespace named <code>timer</code>to the PIXI namespace, and the timer namespace has 2 new classes, TimerManager and Timer, and create an instance for TimerManager in PIXI.timerManager, but all you need is add PIXI.timerManager.update() in your requestAnimationFrame. You can pass as params for <code>PIXI.timerManager.update(delta)</code> your own delta time, if you don&#39;t pass anything it will be calculated internally, for max accuracy calculating the delta time you can use the <a href="https://github.com/Nazariglez/pixi-animationloop/">AnimationLoop</a> plugin.</p>
+				<p>This plugin add a new namespace named <code>EE3Timer</code> if using prebuilt minified js, and exposed 2 new classes, <code>TimerManager</code> and <code>Timer</code>.</p>
+				<blockquote>
+					<p><code>Timer</code> is the main class for timers,
+					<code>TimerManager</code> stands for centralized management of a sets of timers.</p>
+				</blockquote>
+				<p>By defaults, all timers created from <code>new Timer(time)</code> is managed by a global static manager <code>Timer.timerManager</code>. Most of times all you need is add <code>Timer.timerManager.update()</code> in your main loop (eg: <code>PIXI.Application.ticker</code>). You can pass as params for <code>Timer.timerManager.update(delta)</code> your own delta time, if you don&#39;t pass anything it will be calculated internally.</p>
+				<blockquote>
+					<p>Note:
+					<code>PIXI.Application.ticker</code> will pass <code>deltaTime</code> as param for ticker callback, and this <code>deltaTime</code> is a scala value default to <code>1</code> which is not the actual elasped time between each tick, we should use <code>elaspedMS</code> instead. (Take a look at previous samples)</p>
+				</blockquote>
 				<p>When a timer is ended, the instance will kept in the memory and in the timerManager, but you can prevent this if you set .expire = true in the timer.</p>
-				<h4 id="using-animationloop">Using AnimationLoop</h4>
-				<pre><code class="lang-js"><span class="hljs-keyword">var</span> renderer = <span class="hljs-keyword">new</span> PIXI.autoDetectRenderer(<span class="hljs-number">800</span>,<span class="hljs-number">600</span>);
-<span class="hljs-built_in">document</span>.body.appendChild(renderer.view);
+				<p>Alternatively, we can manually create <code>TimerManager</code> class to manage a set of timers.</p>
+				<pre><code class="lang-js"><span class="hljs-keyword">const</span> timer1 = <span class="hljs-keyword">new</span> Timer(<span class="hljs-number">1000</span>); <span class="hljs-comment">// Managed by global Timer.timerManager</span>
+timer1.start();
+<span class="hljs-keyword">const</span> tm = <span class="hljs-keyword">new</span> TimerManager();
+<span class="hljs-keyword">const</span> timer2 = tm.createTimer(<span class="hljs-number">500</span>); <span class="hljs-comment">// Create a timer and assigned to custom TimerManager</span>
+timer2.start();
+tm.update(<span class="hljs-number">500</span>); <span class="hljs-comment">// won't affect timer1 which is controled by global timerManager</span>
+tm.addTimer(timer1); <span class="hljs-comment">// timer1 now no longer controled by gloabl timerManager</span>
+tm.update(<span class="hljs-number">1000</span>); <span class="hljs-comment">// now timer1 will fire</span>
 
-<span class="hljs-keyword">var</span> animationLoop = <span class="hljs-keyword">new</span> PIXI.AnimationLoop(renderer);
-
-<span class="hljs-comment">//Add a postrender or prerender event to add the timer.update in the raf.</span>
-animationLoop.on(<span class="hljs-string">'postrender'</span>, <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params"></span>)</span>{
-  PIXI.timerManager.update(<span class="hljs-keyword">this</span>.delta); <span class="hljs-comment">//Pass as param the delta time to PIXI.timerManager.update</span>
-});
-
-animationLoop.start();
 </code></pre>
 				<h3 id="events">Events</h3>
-				<p>TimerManager extends from <a href="https://github.com/primus/eventemitter3">PIXI.utils.EventEmitter</a>, and emit some events: start, end, repeat, update and stop. More info: <a href="https://nodejs.org/api/events.html#events_emitter_emit_event_arg1_arg2">Node.js Events</a></p>
+				<p>Timer extends from <a href="https://github.com/primus/eventemitter3">EventEmitter3</a>, and emit some events: start, end, repeat, update and stop. More info: <a href="https://nodejs.org/api/events.html#events_emitter_emit_event_arg1_arg2">Node.js Events</a></p>
 				<ul>
 					<li><strong>start - callback(elapsedTime)</strong>: Fired when the timer starts counting. If the timer has an delay, this event fires when the delay time is ended.</li>
 					<li><strong>end - callback(elapsedTime)</strong>: Fired when the timer is over. If the .loop option it&#39;s true, this event never will be fired, and if the timer has an .repeat number, this event will be fired just when all the repeats are done.</li>
@@ -128,35 +143,35 @@ animationLoop.start();
 				</ul>
 				<h3 id="some-examples">Some examples</h3>
 				<p>Create a timer to count to 1 second, and repeat the count 15 times.</p>
-				<pre><code class="lang-js"><span class="hljs-keyword">var</span> timer = PIXI.timerManager.createTimer(<span class="hljs-number">1000</span>);
+				<pre><code class="lang-ts"><span class="hljs-keyword">var</span> timer = <span class="hljs-keyword">new</span> Timer(<span class="hljs-number">1000</span>);
 timer.repeat = <span class="hljs-number">15</span>;
 
-timer.on(<span class="hljs-string">'start'</span>, <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">elapsed</span>)</span>{<span class="hljs-built_in">console</span>.log(<span class="hljs-string">'start'</span>)});
-timer.on(<span class="hljs-string">'end'</span>, <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">elapsed</span>)</span>{<span class="hljs-built_in">console</span>.log(<span class="hljs-string">'end'</span>, elapsed)});
-timer.on(<span class="hljs-string">'repeat'</span>, <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">elapsed, repeat</span>)</span>{<span class="hljs-built_in">console</span>.log(<span class="hljs-string">'repeat'</span>, repeat)});
+timer.on(<span class="hljs-string">'start'</span>, <span class="hljs-function"><span class="hljs-params">()</span> =&gt;</span> <span class="hljs-built_in">console</span>.log(<span class="hljs-string">'start'</span>));
+timer.on(<span class="hljs-string">'end'</span>, <span class="hljs-function"><span class="hljs-params">elapsed</span> =&gt;</span> <span class="hljs-built_in">console</span>.log(<span class="hljs-string">'end'</span>, elapsed));
+timer.on(<span class="hljs-string">'repeat'</span>, <span class="hljs-function">(<span class="hljs-params">elapsed, repeat</span>) =&gt;</span> <span class="hljs-built_in">console</span>.log(<span class="hljs-string">'repeat'</span>, repeat));
 
 timer.start();
 </code></pre>
 				<p>Create a timer to count to 100 ms and repeat forever.</p>
-				<pre><code class="lang-js"><span class="hljs-keyword">var</span> timer = PIXI.timerManager.createTimer(<span class="hljs-number">100</span>);
+				<pre><code class="lang-js"><span class="hljs-keyword">var</span> timer = <span class="hljs-keyword">new</span> Timer(<span class="hljs-number">100</span>);
 timer.loop = <span class="hljs-literal">true</span>;
 
-timer.on(<span class="hljs-string">'start'</span>, <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">elapsed</span>)</span>{<span class="hljs-built_in">console</span>.log(<span class="hljs-string">'start'</span>)});
-timer.on(<span class="hljs-string">'repeat'</span>, <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">elapsed, repeat</span>)</span>{<span class="hljs-built_in">console</span>.log(<span class="hljs-string">'repeat'</span>, repeat)});
+timer.on(<span class="hljs-string">'start'</span>, () =&gt; <span class="hljs-built_in">console</span>.log(<span class="hljs-string">'start'</span>));
+timer.on(<span class="hljs-string">'repeat'</span>, (elapsed, repeat) =&gt; <span class="hljs-built_in">console</span>.log(<span class="hljs-string">'repeat'</span>, repeat));
 
 timer.start();
 </code></pre>
 				<p>Create a timer to count one minute and just end.</p>
-				<pre><code class="lang-js"><span class="hljs-keyword">var</span> timer = PIXI.timerManager.createTimer(<span class="hljs-number">1000</span>*<span class="hljs-number">60</span>);
-timer.on(<span class="hljs-string">'start'</span>, <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">elapsed</span>)</span>{<span class="hljs-built_in">console</span>.log(<span class="hljs-string">'start'</span>)});
-timer.on(<span class="hljs-string">'end'</span>, <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">elapsed</span>)</span>{<span class="hljs-built_in">console</span>.log(<span class="hljs-string">'end'</span>, elapsed)});
+				<pre><code class="lang-js"><span class="hljs-keyword">var</span> timer = <span class="hljs-keyword">new</span> Timer(<span class="hljs-number">1000</span>*<span class="hljs-number">60</span>);
+timer.on(<span class="hljs-string">'start'</span>, () =&gt; <span class="hljs-built_in">console</span>.log(<span class="hljs-string">'start'</span>));
+timer.on(<span class="hljs-string">'end'</span>, elapsed =&gt; <span class="hljs-built_in">console</span>.log(<span class="hljs-string">'end'</span>, elapsed));
 
 timer.start();
 </code></pre>
 				<p>Create a timer to count to 5 seconds, and when the count it&#39;s ended, reset it and count to 10 seconds.</p>
-				<pre><code class="lang-js"><span class="hljs-keyword">var</span> timer = PIXI.timerManager.createTimer(<span class="hljs-number">5000</span>);
-timer.on(<span class="hljs-string">'start'</span>, <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">elapsed</span>)</span>{<span class="hljs-built_in">console</span>.log(<span class="hljs-string">'start'</span>)});
-timer.on(<span class="hljs-string">'end'</span>, <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">elapsed</span>)</span>{
+				<pre><code class="lang-js"><span class="hljs-keyword">var</span> timer = <span class="hljs-keyword">new</span> Timer(<span class="hljs-number">5000</span>);
+timer.on(<span class="hljs-string">'start'</span>, () =&gt; <span class="hljs-built_in">console</span>.log(<span class="hljs-string">'start'</span>));
+timer.on(<span class="hljs-string">'end'</span>, elapsed =&gt; {
   <span class="hljs-keyword">if</span>(elapsed === <span class="hljs-number">5000</span>){
     <span class="hljs-built_in">console</span>.log(<span class="hljs-string">'Reset and count to 10 seconds'</span>);
     <span class="hljs-keyword">this</span>.reset(); <span class="hljs-comment">//Reset the timer</span>
@@ -165,65 +180,21 @@ timer.on(<span class="hljs-string">'end'</span>, <span class="hljs-function"><sp
   }<span class="hljs-keyword">else</span>{
     <span class="hljs-built_in">console</span>.log(<span class="hljs-string">'end'</span>);
   }
-});
+}, timer);
 
 timer.start();
 </code></pre>
 				<p>Create a timer to count to 5 seconds, but with 2 seconds as delay.</p>
-				<pre><code class="lang-js"><span class="hljs-keyword">var</span> timer = PIXI.timerManager.createTimer(<span class="hljs-number">5000</span>);
+				<pre><code class="lang-js"><span class="hljs-keyword">var</span> timer = <span class="hljs-keyword">new</span> Timer(<span class="hljs-number">5000</span>);
 timer.delay = <span class="hljs-number">2000</span>;
-timer.on(<span class="hljs-string">'start'</span>, <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">elapsed</span>)</span>{<span class="hljs-built_in">console</span>.log(<span class="hljs-string">'start'</span>)});
-timer.on(<span class="hljs-string">'end'</span>, <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">elapsed</span>)</span>{<span class="hljs-built_in">console</span>.log(<span class="hljs-string">'end'</span>, elapsed)});
+timer.on(<span class="hljs-string">'start'</span>, () =&gt; <span class="hljs-built_in">console</span>.log(<span class="hljs-string">'start'</span>));
+timer.on(<span class="hljs-string">'end'</span>, elapsed =&gt; <span class="hljs-built_in">console</span>.log(<span class="hljs-string">'end'</span>, elapsed));
 
 timer.start();
 </code></pre>
 				<h2 id="api">API</h2>
-				<h3 id="timermanager">TimerManager</h3>
-				<h4 id="constructor-">constructor()</h4>
-				<p>The constructor</p>
-				<h4 id="-timers">.timers</h4>
-				<p>An array with all the timers created</p>
-				<h4 id="-update-delta-">.update( delta )</h4>
-				<p>The update method, make sure it is in the raf. You can pass a fixed delta time (like 0.016), your own calculated delta, or nothing. (Delta time in seconds not milliseconds).</p>
-				<h4 id="-removetimer-timer-">.removeTimer( timer )</h4>
-				<p>Remove a timer from the .timers array in the next frame.</p>
-				<h4 id="-addtimer-timer-">.addTimer( timer )</h4>
-				<p>Normally you want to use .createTimer(time) to create a timer, but, you can also create a timer with new PIXI.Timer(time) and add it in the manager with this method.  </p>
-				<h4 id="-createtimer-time-">.createTimer( time )</h4>
-				<p>Return a new instance of PIXI.Timer managed by this timerManager.</p>
-				<h3 id="timer">Timer</h3>
-				<h4 id="constructor-">constructor()</h4>
-				<p>The constructor</p>
-				<h4 id="-time">.time</h4>
-				<p>The timer will count to this value</p>
-				<h4 id="-manager">.manager</h4>
-				<p>The TimerManager instance who manage this timer (maybe you want to use different managers for each scene)</p>
-				<h4 id="-active">.active</h4>
-				<p>Read only, it&#39;s the state of the timer. It&#39;s different to the .isStarted. For example: if the timer has a delay, and you use .start(), .isStarted will be false, but .active will be true.</p>
-				<h4 id="-isstarted">.isStarted</h4>
-				<p>Return as boolean if the count is started.</p>
-				<h4 id="-isended">.isEnded</h4>
-				<p>Return as boolean if the count is ended.</p>
-				<h4 id="-expire">.expire</h4>
-				<p>Set to true if you want to delete the instance of this timer when the timer will end. (false by default)</p>
-				<h4 id="-delay">.delay</h4>
-				<p>Set a delay in milliseconds before the timer&#39;s count.</p>
-				<h4 id="-repeat">.repeat</h4>
-				<p>Set to repeat N times the count</p>
-				<h4 id="-loop">.loop</h4>
-				<p>Set true to repeat the count forever</p>
-				<h4 id="-addto-manager-">.addTo( manager )</h4>
-				<p>Add this timer instance to a timerManager</p>
-				<h4 id="-remove-">.remove()</h4>
-				<p>Remove this instance in the next frame</p>
-				<h4 id="-start-">.start()</h4>
-				<p>Active this timer, and start the count or the delay.</p>
-				<h4 id="-stop-">.stop()</h4>
-				<p>Disable the timer, stopping the count. If you use .start() after .stop() the count will be resumed.</p>
-				<h4 id="-reset-">.reset()</h4>
-				<p>Reset the timer to the initial state. Values like .time, .loop, .repeat, etcetera will be kept.</p>
-				<h4 id="-update-delta-deltams-">.update( delta, deltaMS )</h4>
-				<p>The update method, you don&#39;t need to use this method, the manager will do this internally.</p>
+				<p><a href="https://soimy.github.io/eventemitter3-timer/modules/_timer_.html">Timer</a>
+				<a href="https://soimy.github.io/eventemitter3-timer/modules/_timermanager_.html">TimerManager</a></p>
 			</div>
 		</div>
 		<div class="col-4 col-menu menu-sticky-wrap menu-highlight">
@@ -237,6 +208,9 @@ timer.start();
 					</li>
 					<li class=" tsd-kind-external-module">
 						<a href="modules/_timermanager_.html">"<wbr>Timer<wbr>Manager"</a>
+					</li>
+					<li class=" tsd-kind-external-module">
+						<a href="modules/_index_.html">"index"</a>
 					</li>
 				</ul>
 			</nav>
