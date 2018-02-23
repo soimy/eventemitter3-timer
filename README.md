@@ -1,75 +1,94 @@
-pixi-timer
+EventEmitter3-Timer
 ======================
 
-[![Build Status](https://travis-ci.org/soimy/pixi-timer.svg?branch=master)](https://travis-ci.org/soimy/pixi-timer)
-[![Coverage Status](https://coveralls.io/repos/github/soimy/pixi-timer/badge.svg)](https://coveralls.io/github/soimy/pixi-timer)
+[![Build Status](https://travis-ci.org/soimy/eventemitter3-timer.svg?branch=master)](https://travis-ci.org/soimy/eventemitter3-timer)
+[![Coverage Status](https://coveralls.io/repos/github/soimy/eventemitter3-timer/badge.svg?branch=master)](https://coveralls.io/github/soimy/eventemitter3-timer?branch=master)
 [![TypeScript definitions on DefinitelyTyped](http://definitelytyped.org/badges/standard-flat.svg)](http://definitelytyped.org)
 
-`pixi-timer` is a plugin for Pixi.js v4 to create time events easily.
+`EventEmitter3-Timer` is a plugin extend [EventEmitter3](https://github.com/primus/eventemitter3) to create time events easily.
+The origin purpose of this module is to add timer events into `PIXI.js` event system which is also extends `EventEmitter3`. There was a great repo [pixi-timer](https://github.com/Nazariglez/pixi-timer) but stop updated since 2016 and can't work with latest PIXI v4+. So here it is, a new Timer for `PIXI.js` or any other code work with `EventEmitter3`, with almost the same API with `pixi-timer` but with optimized workflow and support of `typescript` (Because the whole module is written in typescript).
 
 ## Installation
 
 ```bash
-npm install pixi-timer-2
+npm install eventemitter3-timer
 ```
 
 ## Usage
+
 ### Browserify - Webpack
-If you use Browserify or Webpack you can use pixi-timer like this:
 
-```js
-const PIXI = require('pixi.js');
-const timer = require('pixi-timer-2'); //pixi-timer is added automatically to the PIXI namespace
+If you use Browserify or Webpack you can use timer like this:
 
-//create PIXI Application
+```ts
+import { Timer, TimerManager } from "eventemitter3-timer";
+
+//create PIXI application
 const app = new PIXI.Application(800,600);
 document.body.appendChild(app.view);
 
-function animate(){
-  window.requestAnimationFrame(animate);
-  renderer.render(stage);
-  PIXI.timerManager.update();
-}
-animate();
+//create timer
+const timer = new Timer(1000); // in ms
+timer.on("end", () => {
+  console.log("Timer ended.");
+});
+timer.start();
+
+//increment timer in ticker loop
+app.ticker.add(() => Timer.timemanager.update(app.ticker.elapsedMS), this);
+
 ```
 
 ### Prebuilt files
 
-```js
-var renderer = new PIXI.autoDetectRenderer(800,600);
-document.body.appendChild(renderer.view);
-var stage = new PIXI.Container();
+Prebuilt minified js expose a `EE3Timer` namespace.
 
-function animate(){
-  window.requestAnimationFrame(animate);
-  renderer.render(stage);
-  PIXI.timerManager.update();
-}
-animate();
+```js
+//create PIXI application
+const app = new PIXI.Application(800,600);
+document.body.appendChild(app.view);
+
+const timer = new EE3Timer.Timer(1000); // in ms
+timer.on("end", () => {
+  console.log("Timer ended.");
+});
+timer.start();
+
+//increment timer in ticker loop
+app.ticker.add(() => Timer.timemanager.update(app.ticker.elapsedMS), this);
+
 ```
 
 ### How it works
-This plugin add a new namespace named `timer`to the PIXI namespace, and the timer namespace has 2 new classes, TimerManager and Timer, and create an instance for TimerManager in PIXI.timerManager, but all you need is add PIXI.timerManager.update() in your requestAnimationFrame. You can pass as params for `PIXI.timerManager.update(delta)` your own delta time, if you don't pass anything it will be calculated internally, for max accuracy calculating the delta time you can use the [AnimationLoop](https://github.com/Nazariglez/pixi-animationloop/) plugin.
+This plugin add a new namespace named `EE3Timer` if using prebuilt minified js, and exposed 2 new classes, `TimerManager` and `Timer`.
+
+> `Timer` is the main class for timers,
+> `TimerManager` stands for centralized management of a sets of timers.
+
+By defaults, all timers created from `new Timer(time)` is managed by a global static manager `Timer.timerManager`. Most of times all you need is add `Timer.timerManager.update()` in your main loop (eg: `PIXI.Application.ticker`). You can pass as params for `Timer.timerManager.update(delta)` your own delta time, if you don't pass anything it will be calculated internally.
+
+> Note:
+> `PIXI.Application.ticker` will pass `deltaTime` as param for ticker callback, and this `deltaTime` is a scala value default to `1` which is not the actual elasped time between each tick, we should use `elaspedMS` instead. (Take a look at previous samples)
 
 When a timer is ended, the instance will kept in the memory and in the timerManager, but you can prevent this if you set .expire = true in the timer.
 
-#### Using AnimationLoop
+Alternatively, we can manually create `TimerManager` class to manage a set of timers.
+
 ```js
-var renderer = new PIXI.autoDetectRenderer(800,600);
-document.body.appendChild(renderer.view);
+const timer1 = new Timer(1000); // Managed by global Timer.timerManager
+timer1.start();
+const tm = new TimerManager();
+const timer2 = tm.createTimer(500); // Create a timer and assigned to custom TimerManager
+timer2.start();
+tm.update(500); // won't affect timer1 which is controled by global timerManager
+tm.addTimer(timer1); // timer1 now no longer controled by gloabl timerManager
+tm.update(1000); // now timer1 will fire
 
-var animationLoop = new PIXI.AnimationLoop(renderer);
-
-//Add a postrender or prerender event to add the timer.update in the raf.
-animationLoop.on('postrender', function(){
-  PIXI.timerManager.update(this.delta); //Pass as param the delta time to PIXI.timerManager.update
-});
-
-animationLoop.start();
 ```
 
 ### Events
-TimerManager extends from [PIXI.utils.EventEmitter](https://github.com/primus/eventemitter3), and emit some events: start, end, repeat, update and stop. More info: [Node.js Events](https://nodejs.org/api/events.html#events_emitter_emit_event_arg1_arg2)
+
+Timer extends from [EventEmitter3](https://github.com/primus/eventemitter3), and emit some events: start, end, repeat, update and stop. More info: [Node.js Events](https://nodejs.org/api/events.html#events_emitter_emit_event_arg1_arg2)
 
 - __start - callback(elapsedTime)__: Fired when the timer starts counting. If the timer has an delay, this event fires when the delay time is ended.
 - __end - callback(elapsedTime)__: Fired when the timer is over. If the .loop option it's true, this event never will be fired, and if the timer has an .repeat number, this event will be fired just when all the repeats are done.
@@ -78,43 +97,48 @@ TimerManager extends from [PIXI.utils.EventEmitter](https://github.com/primus/ev
 - __stop - callback(elapsedTime)__: Fired only when it's used the .stop() method. It's useful to know when a timer is cancelled.
 
 ### Some examples
+
 Create a timer to count to 1 second, and repeat the count 15 times.
-```js
-var timer = PIXI.timerManager.createTimer(1000);
+
+```ts
+var timer = new Timer(1000);
 timer.repeat = 15;
 
-timer.on('start', function(elapsed){console.log('start')});
-timer.on('end', function(elapsed){console.log('end', elapsed)});
-timer.on('repeat', function(elapsed, repeat){console.log('repeat', repeat)});
+timer.on('start', () => console.log('start'));
+timer.on('end', elapsed => console.log('end', elapsed));
+timer.on('repeat', (elapsed, repeat) => console.log('repeat', repeat));
 
 timer.start();
 ```
 
 Create a timer to count to 100 ms and repeat forever.
+
 ```js
-var timer = PIXI.timerManager.createTimer(100);
+var timer = new Timer(100);
 timer.loop = true;
 
-timer.on('start', function(elapsed){console.log('start')});
-timer.on('repeat', function(elapsed, repeat){console.log('repeat', repeat)});
+timer.on('start', () => console.log('start'));
+timer.on('repeat', (elapsed, repeat) => console.log('repeat', repeat));
 
 timer.start();
 ```
 
 Create a timer to count one minute and just end.
+
 ```js
-var timer = PIXI.timerManager.createTimer(1000*60);
-timer.on('start', function(elapsed){console.log('start')});
-timer.on('end', function(elapsed){console.log('end', elapsed)});
+var timer = new Timer(1000*60);
+timer.on('start', () => console.log('start'));
+timer.on('end', elapsed => console.log('end', elapsed));
 
 timer.start();
 ```
 
 Create a timer to count to 5 seconds, and when the count it's ended, reset it and count to 10 seconds.
+
 ```js
-var timer = PIXI.timerManager.createTimer(5000);
-timer.on('start', function(elapsed){console.log('start')});
-timer.on('end', function(elapsed){
+var timer = new Timer(5000);
+timer.on('start', () => console.log('start'));
+timer.on('end', elapsed => {
   if(elapsed === 5000){
     console.log('Reset and count to 10 seconds');
     this.reset(); //Reset the timer
@@ -123,66 +147,21 @@ timer.on('end', function(elapsed){
   }else{
     console.log('end');
   }
-});
+}, timer);
 
 timer.start();
 ```
 
 Create a timer to count to 5 seconds, but with 2 seconds as delay.
+
 ```js
-var timer = PIXI.timerManager.createTimer(5000);
+var timer = new Timer(5000);
 timer.delay = 2000;
-timer.on('start', function(elapsed){console.log('start')});
-timer.on('end', function(elapsed){console.log('end', elapsed)});
+timer.on('start', () => console.log('start'));
+timer.on('end', elapsed => console.log('end', elapsed));
 
 timer.start();
 ```
 
 ## API
-### TimerManager
-#### constructor()
-The constructor
-#### .timers
-An array with all the timers created
-#### .update( delta )
-The update method, make sure it is in the raf. You can pass a fixed delta time (like 0.016), your own calculated delta, or nothing. (Delta time in seconds not milliseconds).
-#### .removeTimer( timer )
-Remove a timer from the .timers array in the next frame.
-#### .addTimer( timer )
-Normally you want to use .createTimer(time) to create a timer, but, you can also create a timer with new PIXI.Timer(time) and add it in the manager with this method.  
-#### .createTimer( time )
-Return a new instance of PIXI.Timer managed by this timerManager.
-
-### Timer
-#### constructor()
-The constructor
-#### .time
-The timer will count to this value
-#### .manager
-The TimerManager instance who manage this timer (maybe you want to use different managers for each scene)
-#### .active
-Read only, it's the state of the timer. It's different to the .isStarted. For example: if the timer has a delay, and you use .start(), .isStarted will be false, but .active will be true.
-#### .isStarted
-Return as boolean if the count is started.
-#### .isEnded
-Return as boolean if the count is ended.
-#### .expire
-Set to true if you want to delete the instance of this timer when the timer will end. (false by default)
-#### .delay
-Set a delay in milliseconds before the timer's count.
-#### .repeat
-Set to repeat N times the count
-#### .loop
-Set true to repeat the count forever
-#### .addTo( manager )
-Add this timer instance to a timerManager
-#### .remove()
-Remove this instance in the next frame
-#### .start()
-Active this timer, and start the count or the delay.
-#### .stop()
-Disable the timer, stopping the count. If you use .start() after .stop() the count will be resumed.
-#### .reset()
-Reset the timer to the initial state. Values like .time, .loop, .repeat, etcetera will be kept.
-#### .update( delta, deltaMS )
-The update method, you don't need to use this method, the manager will do this internally.
+See: 
