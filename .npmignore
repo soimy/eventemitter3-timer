@@ -7,3 +7,5 @@ coverage
 .gitignore
 *.png
 .vscode
+tslint.json
+docs

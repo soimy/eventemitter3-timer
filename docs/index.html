@@ -1,0 +1,316 @@
+<!doctype html>
+<html class="default no-js">
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<title>pixi-timer-2</title>
+	<meta name="description" content="">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="stylesheet" href="assets/css/main.css">
+</head>
+<body>
+<header>
+	<div class="tsd-page-toolbar">
+		<div class="container">
+			<div class="table-wrap">
+				<div class="table-cell" id="tsd-search" data-index="assets/js/search.js" data-base=".">
+					<div class="field">
+						<label for="tsd-search-field" class="tsd-widget search no-caption">Search</label>
+						<input id="tsd-search-field" type="text" />
+					</div>
+					<ul class="results">
+						<li class="state loading">Preparing search index...</li>
+						<li class="state failure">The search index is not available</li>
+					</ul>
+					<a href="index.html" class="title">pixi-timer-2</a>
+				</div>
+				<div class="table-cell" id="tsd-widgets">
+					<div id="tsd-filter">
+						<a href="#" class="tsd-widget options no-caption" data-toggle="options">Options</a>
+						<div class="tsd-filter-group">
+							<div class="tsd-select" id="tsd-filter-visibility">
+								<span class="tsd-select-label">All</span>
+								<ul class="tsd-select-list">
+									<li data-value="public">Public</li>
+									<li data-value="protected">Public/Protected</li>
+									<li data-value="private" class="selected">All</li>
+								</ul>
+							</div>
+							<input type="checkbox" id="tsd-filter-inherited" checked />
+							<label class="tsd-widget" for="tsd-filter-inherited">Inherited</label>
+							<input type="checkbox" id="tsd-filter-externals" checked />
+							<label class="tsd-widget" for="tsd-filter-externals">Externals</label>
+							<input type="checkbox" id="tsd-filter-only-exported" />
+							<label class="tsd-widget" for="tsd-filter-only-exported">Only exported</label>
+						</div>
+					</div>
+					<a href="#" class="tsd-widget menu no-caption" data-toggle="menu">Menu</a>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="tsd-page-title">
+		<div class="container">
+			<ul class="tsd-breadcrumb">
+				<li>
+					<a href="globals.html">Globals</a>
+				</li>
+			</ul>
+			<h1> pixi-timer-2</h1>
+		</div>
+	</div>
+</header>
+<div class="container container-main">
+	<div class="row">
+		<div class="col-8 col-content">
+			<div class="tsd-panel tsd-typography">
+				<h1 id="pixi-timer">pixi-timer</h1>
+				<p><a href="https://travis-ci.org/soimy/pixi-timer"><img src="https://travis-ci.org/soimy/pixi-timer.svg?branch=master" alt="Build Status"></a>
+					<a href="https://coveralls.io/github/soimy/pixi-timer"><img src="https://coveralls.io/repos/github/soimy/pixi-timer/badge.svg" alt="Coverage Status"></a>
+				<a href="http://definitelytyped.org"><img src="http://definitelytyped.org/badges/standard-flat.svg" alt="TypeScript definitions on DefinitelyTyped"></a></p>
+				<p><code>pixi-timer</code> is a plugin for Pixi.js v4 to create time events easily.</p>
+				<h2 id="installation">Installation</h2>
+				<pre><code class="lang-bash">npm install pixi-timer-2
+</code></pre>
+				<h2 id="usage">Usage</h2>
+				<h3 id="browserify-webpack">Browserify - Webpack</h3>
+				<p>If you use Browserify or Webpack you can use pixi-timer like this:</p>
+				<pre><code class="lang-js"><span class="hljs-keyword">const</span> PIXI = <span class="hljs-built_in">require</span>(<span class="hljs-string">'pixi.js'</span>);
+<span class="hljs-keyword">const</span> timer = <span class="hljs-built_in">require</span>(<span class="hljs-string">'pixi-timer-2'</span>); <span class="hljs-comment">//pixi-timer is added automatically to the PIXI namespace</span>
+
+<span class="hljs-comment">//create PIXI Application</span>
+<span class="hljs-keyword">const</span> app = <span class="hljs-keyword">new</span> PIXI.Application(<span class="hljs-number">800</span>,<span class="hljs-number">600</span>);
+<span class="hljs-built_in">document</span>.body.appendChild(app.view);
+
+<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">animate</span>(<span class="hljs-params"></span>)</span>{
+  <span class="hljs-built_in">window</span>.requestAnimationFrame(animate);
+  renderer.render(stage);
+  PIXI.timerManager.update();
+}
+animate();
+</code></pre>
+				<h3 id="prebuilt-files">Prebuilt files</h3>
+				<pre><code class="lang-js"><span class="hljs-keyword">var</span> renderer = <span class="hljs-keyword">new</span> PIXI.autoDetectRenderer(<span class="hljs-number">800</span>,<span class="hljs-number">600</span>);
+<span class="hljs-built_in">document</span>.body.appendChild(renderer.view);
+<span class="hljs-keyword">var</span> stage = <span class="hljs-keyword">new</span> PIXI.Container();
+
+<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">animate</span>(<span class="hljs-params"></span>)</span>{
+  <span class="hljs-built_in">window</span>.requestAnimationFrame(animate);
+  renderer.render(stage);
+  PIXI.timerManager.update();
+}
+animate();
+</code></pre>
+				<h3 id="how-it-works">How it works</h3>
+				<p>This plugin add a new namespace named <code>timer</code>to the PIXI namespace, and the timer namespace has 2 new classes, TimerManager and Timer, and create an instance for TimerManager in PIXI.timerManager, but all you need is add PIXI.timerManager.update() in your requestAnimationFrame. You can pass as params for <code>PIXI.timerManager.update(delta)</code> your own delta time, if you don&#39;t pass anything it will be calculated internally, for max accuracy calculating the delta time you can use the <a href="https://github.com/Nazariglez/pixi-animationloop/">AnimationLoop</a> plugin.</p>
+				<p>When a timer is ended, the instance will kept in the memory and in the timerManager, but you can prevent this if you set .expire = true in the timer.</p>
+				<h4 id="using-animationloop">Using AnimationLoop</h4>
+				<pre><code class="lang-js"><span class="hljs-keyword">var</span> renderer = <span class="hljs-keyword">new</span> PIXI.autoDetectRenderer(<span class="hljs-number">800</span>,<span class="hljs-number">600</span>);
+<span class="hljs-built_in">document</span>.body.appendChild(renderer.view);
+
+<span class="hljs-keyword">var</span> animationLoop = <span class="hljs-keyword">new</span> PIXI.AnimationLoop(renderer);
+
+<span class="hljs-comment">//Add a postrender or prerender event to add the timer.update in the raf.</span>
+animationLoop.on(<span class="hljs-string">'postrender'</span>, <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params"></span>)</span>{
+  PIXI.timerManager.update(<span class="hljs-keyword">this</span>.delta); <span class="hljs-comment">//Pass as param the delta time to PIXI.timerManager.update</span>
+});
+
+animationLoop.start();
+</code></pre>
+				<h3 id="events">Events</h3>
+				<p>TimerManager extends from <a href="https://github.com/primus/eventemitter3">PIXI.utils.EventEmitter</a>, and emit some events: start, end, repeat, update and stop. More info: <a href="https://nodejs.org/api/events.html#events_emitter_emit_event_arg1_arg2">Node.js Events</a></p>
+				<ul>
+					<li><strong>start - callback(elapsedTime)</strong>: Fired when the timer starts counting. If the timer has an delay, this event fires when the delay time is ended.</li>
+					<li><strong>end - callback(elapsedTime)</strong>: Fired when the timer is over. If the .loop option it&#39;s true, this event never will be fired, and if the timer has an .repeat number, this event will be fired just when all the repeats are done.</li>
+					<li><strong>repeat - callback(elapsedTime, repeat)</strong>: Fired at every repeat cycle, if your time has .repeat=5 this events will be fired 5 times.</li>
+					<li><strong>update - callback(elapsedTime, delta)</strong>: Fired at each frame.</li>
+					<li><strong>stop - callback(elapsedTime)</strong>: Fired only when it&#39;s used the .stop() method. It&#39;s useful to know when a timer is cancelled.</li>
+				</ul>
+				<h3 id="some-examples">Some examples</h3>
+				<p>Create a timer to count to 1 second, and repeat the count 15 times.</p>
+				<pre><code class="lang-js"><span class="hljs-keyword">var</span> timer = PIXI.timerManager.createTimer(<span class="hljs-number">1000</span>);
+timer.repeat = <span class="hljs-number">15</span>;
+
+timer.on(<span class="hljs-string">'start'</span>, <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">elapsed</span>)</span>{<span class="hljs-built_in">console</span>.log(<span class="hljs-string">'start'</span>)});
+timer.on(<span class="hljs-string">'end'</span>, <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">elapsed</span>)</span>{<span class="hljs-built_in">console</span>.log(<span class="hljs-string">'end'</span>, elapsed)});
+timer.on(<span class="hljs-string">'repeat'</span>, <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">elapsed, repeat</span>)</span>{<span class="hljs-built_in">console</span>.log(<span class="hljs-string">'repeat'</span>, repeat)});
+
+timer.start();
+</code></pre>
+				<p>Create a timer to count to 100 ms and repeat forever.</p>
+				<pre><code class="lang-js"><span class="hljs-keyword">var</span> timer = PIXI.timerManager.createTimer(<span class="hljs-number">100</span>);
+timer.loop = <span class="hljs-literal">true</span>;
+
+timer.on(<span class="hljs-string">'start'</span>, <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">elapsed</span>)</span>{<span class="hljs-built_in">console</span>.log(<span class="hljs-string">'start'</span>)});
+timer.on(<span class="hljs-string">'repeat'</span>, <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">elapsed, repeat</span>)</span>{<span class="hljs-built_in">console</span>.log(<span class="hljs-string">'repeat'</span>, repeat)});
+
+timer.start();
+</code></pre>
+				<p>Create a timer to count one minute and just end.</p>
+				<pre><code class="lang-js"><span class="hljs-keyword">var</span> timer = PIXI.timerManager.createTimer(<span class="hljs-number">1000</span>*<span class="hljs-number">60</span>);
+timer.on(<span class="hljs-string">'start'</span>, <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">elapsed</span>)</span>{<span class="hljs-built_in">console</span>.log(<span class="hljs-string">'start'</span>)});
+timer.on(<span class="hljs-string">'end'</span>, <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">elapsed</span>)</span>{<span class="hljs-built_in">console</span>.log(<span class="hljs-string">'end'</span>, elapsed)});
+
+timer.start();
+</code></pre>
+				<p>Create a timer to count to 5 seconds, and when the count it&#39;s ended, reset it and count to 10 seconds.</p>
+				<pre><code class="lang-js"><span class="hljs-keyword">var</span> timer = PIXI.timerManager.createTimer(<span class="hljs-number">5000</span>);
+timer.on(<span class="hljs-string">'start'</span>, <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">elapsed</span>)</span>{<span class="hljs-built_in">console</span>.log(<span class="hljs-string">'start'</span>)});
+timer.on(<span class="hljs-string">'end'</span>, <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">elapsed</span>)</span>{
+  <span class="hljs-keyword">if</span>(elapsed === <span class="hljs-number">5000</span>){
+    <span class="hljs-built_in">console</span>.log(<span class="hljs-string">'Reset and count to 10 seconds'</span>);
+    <span class="hljs-keyword">this</span>.reset(); <span class="hljs-comment">//Reset the timer</span>
+    <span class="hljs-keyword">this</span>.time = <span class="hljs-number">10000</span>; <span class="hljs-comment">//set to 10 seconds</span>
+    <span class="hljs-keyword">this</span>.start(); <span class="hljs-comment">//And start again</span>
+  }<span class="hljs-keyword">else</span>{
+    <span class="hljs-built_in">console</span>.log(<span class="hljs-string">'end'</span>);
+  }
+});
+
+timer.start();
+</code></pre>
+				<p>Create a timer to count to 5 seconds, but with 2 seconds as delay.</p>
+				<pre><code class="lang-js"><span class="hljs-keyword">var</span> timer = PIXI.timerManager.createTimer(<span class="hljs-number">5000</span>);
+timer.delay = <span class="hljs-number">2000</span>;
+timer.on(<span class="hljs-string">'start'</span>, <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">elapsed</span>)</span>{<span class="hljs-built_in">console</span>.log(<span class="hljs-string">'start'</span>)});
+timer.on(<span class="hljs-string">'end'</span>, <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">elapsed</span>)</span>{<span class="hljs-built_in">console</span>.log(<span class="hljs-string">'end'</span>, elapsed)});
+
+timer.start();
+</code></pre>
+				<h2 id="api">API</h2>
+				<h3 id="timermanager">TimerManager</h3>
+				<h4 id="constructor-">constructor()</h4>
+				<p>The constructor</p>
+				<h4 id="-timers">.timers</h4>
+				<p>An array with all the timers created</p>
+				<h4 id="-update-delta-">.update( delta )</h4>
+				<p>The update method, make sure it is in the raf. You can pass a fixed delta time (like 0.016), your own calculated delta, or nothing. (Delta time in seconds not milliseconds).</p>
+				<h4 id="-removetimer-timer-">.removeTimer( timer )</h4>
+				<p>Remove a timer from the .timers array in the next frame.</p>
+				<h4 id="-addtimer-timer-">.addTimer( timer )</h4>
+				<p>Normally you want to use .createTimer(time) to create a timer, but, you can also create a timer with new PIXI.Timer(time) and add it in the manager with this method.  </p>
+				<h4 id="-createtimer-time-">.createTimer( time )</h4>
+				<p>Return a new instance of PIXI.Timer managed by this timerManager.</p>
+				<h3 id="timer">Timer</h3>
+				<h4 id="constructor-">constructor()</h4>
+				<p>The constructor</p>
+				<h4 id="-time">.time</h4>
+				<p>The timer will count to this value</p>
+				<h4 id="-manager">.manager</h4>
+				<p>The TimerManager instance who manage this timer (maybe you want to use different managers for each scene)</p>
+				<h4 id="-active">.active</h4>
+				<p>Read only, it&#39;s the state of the timer. It&#39;s different to the .isStarted. For example: if the timer has a delay, and you use .start(), .isStarted will be false, but .active will be true.</p>
+				<h4 id="-isstarted">.isStarted</h4>
+				<p>Return as boolean if the count is started.</p>
+				<h4 id="-isended">.isEnded</h4>
+				<p>Return as boolean if the count is ended.</p>
+				<h4 id="-expire">.expire</h4>
+				<p>Set to true if you want to delete the instance of this timer when the timer will end. (false by default)</p>
+				<h4 id="-delay">.delay</h4>
+				<p>Set a delay in milliseconds before the timer&#39;s count.</p>
+				<h4 id="-repeat">.repeat</h4>
+				<p>Set to repeat N times the count</p>
+				<h4 id="-loop">.loop</h4>
+				<p>Set true to repeat the count forever</p>
+				<h4 id="-addto-manager-">.addTo( manager )</h4>
+				<p>Add this timer instance to a timerManager</p>
+				<h4 id="-remove-">.remove()</h4>
+				<p>Remove this instance in the next frame</p>
+				<h4 id="-start-">.start()</h4>
+				<p>Active this timer, and start the count or the delay.</p>
+				<h4 id="-stop-">.stop()</h4>
+				<p>Disable the timer, stopping the count. If you use .start() after .stop() the count will be resumed.</p>
+				<h4 id="-reset-">.reset()</h4>
+				<p>Reset the timer to the initial state. Values like .time, .loop, .repeat, etcetera will be kept.</p>
+				<h4 id="-update-delta-deltams-">.update( delta, deltaMS )</h4>
+				<p>The update method, you don&#39;t need to use this method, the manager will do this internally.</p>
+			</div>
+		</div>
+		<div class="col-4 col-menu menu-sticky-wrap menu-highlight">
+			<nav class="tsd-navigation primary">
+				<ul>
+					<li class="globals  ">
+						<a href="globals.html"><em>Globals</em></a>
+					</li>
+					<li class=" tsd-kind-external-module">
+						<a href="modules/_timer_.html">"<wbr>Timer"</a>
+					</li>
+					<li class=" tsd-kind-external-module">
+						<a href="modules/_timermanager_.html">"<wbr>Timer<wbr>Manager"</a>
+					</li>
+				</ul>
+			</nav>
+			<nav class="tsd-navigation secondary menu-sticky">
+				<ul class="before-current">
+				</ul>
+			</nav>
+		</div>
+	</div>
+</div>
+<footer class="with-border-bottom">
+	<div class="container">
+		<h2>Legend</h2>
+		<div class="tsd-legend-group">
+			<ul class="tsd-legend">
+				<li class="tsd-kind-module"><span class="tsd-kind-icon">Module</span></li>
+				<li class="tsd-kind-object-literal"><span class="tsd-kind-icon">Object literal</span></li>
+				<li class="tsd-kind-variable"><span class="tsd-kind-icon">Variable</span></li>
+				<li class="tsd-kind-function"><span class="tsd-kind-icon">Function</span></li>
+				<li class="tsd-kind-function tsd-has-type-parameter"><span class="tsd-kind-icon">Function with type parameter</span></li>
+				<li class="tsd-kind-index-signature"><span class="tsd-kind-icon">Index signature</span></li>
+				<li class="tsd-kind-type-alias"><span class="tsd-kind-icon">Type alias</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-enum"><span class="tsd-kind-icon">Enumeration</span></li>
+				<li class="tsd-kind-enum-member"><span class="tsd-kind-icon">Enumeration member</span></li>
+				<li class="tsd-kind-property tsd-parent-kind-enum"><span class="tsd-kind-icon">Property</span></li>
+				<li class="tsd-kind-method tsd-parent-kind-enum"><span class="tsd-kind-icon">Method</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-interface"><span class="tsd-kind-icon">Interface</span></li>
+				<li class="tsd-kind-interface tsd-has-type-parameter"><span class="tsd-kind-icon">Interface with type parameter</span></li>
+				<li class="tsd-kind-constructor tsd-parent-kind-interface"><span class="tsd-kind-icon">Constructor</span></li>
+				<li class="tsd-kind-property tsd-parent-kind-interface"><span class="tsd-kind-icon">Property</span></li>
+				<li class="tsd-kind-method tsd-parent-kind-interface"><span class="tsd-kind-icon">Method</span></li>
+				<li class="tsd-kind-index-signature tsd-parent-kind-interface"><span class="tsd-kind-icon">Index signature</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-class"><span class="tsd-kind-icon">Class</span></li>
+				<li class="tsd-kind-class tsd-has-type-parameter"><span class="tsd-kind-icon">Class with type parameter</span></li>
+				<li class="tsd-kind-constructor tsd-parent-kind-class"><span class="tsd-kind-icon">Constructor</span></li>
+				<li class="tsd-kind-property tsd-parent-kind-class"><span class="tsd-kind-icon">Property</span></li>
+				<li class="tsd-kind-method tsd-parent-kind-class"><span class="tsd-kind-icon">Method</span></li>
+				<li class="tsd-kind-accessor tsd-parent-kind-class"><span class="tsd-kind-icon">Accessor</span></li>
+				<li class="tsd-kind-index-signature tsd-parent-kind-class"><span class="tsd-kind-icon">Index signature</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-constructor tsd-parent-kind-class tsd-is-inherited"><span class="tsd-kind-icon">Inherited constructor</span></li>
+				<li class="tsd-kind-property tsd-parent-kind-class tsd-is-inherited"><span class="tsd-kind-icon">Inherited property</span></li>
+				<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><span class="tsd-kind-icon">Inherited method</span></li>
+				<li class="tsd-kind-accessor tsd-parent-kind-class tsd-is-inherited"><span class="tsd-kind-icon">Inherited accessor</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-property tsd-parent-kind-class tsd-is-protected"><span class="tsd-kind-icon">Protected property</span></li>
+				<li class="tsd-kind-method tsd-parent-kind-class tsd-is-protected"><span class="tsd-kind-icon">Protected method</span></li>
+				<li class="tsd-kind-accessor tsd-parent-kind-class tsd-is-protected"><span class="tsd-kind-icon">Protected accessor</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-property tsd-parent-kind-class tsd-is-private"><span class="tsd-kind-icon">Private property</span></li>
+				<li class="tsd-kind-method tsd-parent-kind-class tsd-is-private"><span class="tsd-kind-icon">Private method</span></li>
+				<li class="tsd-kind-accessor tsd-parent-kind-class tsd-is-private"><span class="tsd-kind-icon">Private accessor</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-property tsd-parent-kind-class tsd-is-static"><span class="tsd-kind-icon">Static property</span></li>
+				<li class="tsd-kind-call-signature tsd-parent-kind-class tsd-is-static"><span class="tsd-kind-icon">Static method</span></li>
+			</ul>
+		</div>
+	</div>
+</footer>
+<div class="container tsd-generator">
+	<p>Generated using <a href="http://typedoc.org/" target="_blank">TypeDoc</a></p>
+</div>
+<div class="overlay"></div>
+<script src="assets/js/main.js"></script>
+<script>if (location.protocol == 'file:') document.write('<script src="assets/js/search.js"><' + '/script>');</script>
+</body>
+</html>

@@ -3,7 +3,7 @@ pixi-timer
 
 [![Build Status](https://travis-ci.org/soimy/pixi-timer.svg?branch=master)](https://travis-ci.org/soimy/pixi-timer)
 [![Coverage Status](https://coveralls.io/repos/github/soimy/pixi-timer/badge.svg)](https://coveralls.io/github/soimy/pixi-timer)
-[![TypeScript](https://badges.frapsoft.com/typescript/code/typescript.png?v=101)](https://github.com/ellerbrock/typescript-badges/)
+[![TypeScript definitions on DefinitelyTyped](http://definitelytyped.org/badges/standard-flat.svg)](http://definitelytyped.org)
 
 `pixi-timer` is a plugin for Pixi.js v4 to create time events easily.
 
