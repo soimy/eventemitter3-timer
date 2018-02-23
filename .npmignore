@@ -9,3 +9,5 @@ coverage
 .vscode
 tslint.json
 docs
+webpack.config.js
+.travis.yml

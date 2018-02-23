@@ -1,6 +1,6 @@
 {
   "name": "eventemitter3-timer",
-  "version": "2.0.0",
+  "version": "1.0.0",
   "description": "`EventEmitter3-Timer` is a plugin extend [EventEmitter3](https://github.com/primus/eventemitter3) to create time events easily.",
   "main": "./lib/index.js",
   "typings": "./lib/Timer.d.ts",
@@ -16,7 +16,7 @@
     "time",
     "event"
   ],
-  "homepage": "https://github.com/soimy/eventemitter3-timer",
+  "homepage": "https://soimy.github.io/eventemitter3-timer",
   "repository": {
     "type": "git",
     "url": "https://github.com/soimy/eventemitter3-timer.git"
