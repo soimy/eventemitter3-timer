@@ -59,7 +59,7 @@ app.ticker.add(() => Timer.timemanager.update(app.ticker.elapsedMS), this);
 
 ```
 
-### How it works
+## How it works
 
 This plugin add a new namespace named `EE3Timer` if using prebuilt minified js, and exposed 2 new classes, `TimerManager` and `Timer`.
 
@@ -87,7 +87,7 @@ tm.update(1000); // now timer1 will fire
 
 ```
 
-### Events
+## Events
 
 Timer extends from [EventEmitter3](https://github.com/primus/eventemitter3), and emit some events: start, end, repeat, update and stop. More info: [Node.js Events](https://nodejs.org/api/events.html#events_emitter_emit_event_arg1_arg2)
 
@@ -97,7 +97,7 @@ Timer extends from [EventEmitter3](https://github.com/primus/eventemitter3), and
 - __update - callback(elapsedTime, delta)__: Fired at each frame.
 - __stop - callback(elapsedTime)__: Fired only when it's used the .stop() method. It's useful to know when a timer is cancelled.
 
-### Some examples
+## Some examples
 
 Create a timer to count to 1 second, and repeat the count 15 times.
 
