@@ -165,5 +165,6 @@ timer.start();
 ```
 
 ## API
-[Timer](https://soimy.github.io/eventemitter3-timer/modules/_timer_.html)
-[TimerManager](https://soimy.github.io/eventemitter3-timer/modules/_timermanager_.html)
+
+- [Timer](https://soimy.github.io/eventemitter3-timer/modules/_timer_.html)
+- [TimerManager](https://soimy.github.io/eventemitter3-timer/modules/_timermanager_.html)
