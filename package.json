@@ -1,54 +1,56 @@
 {
-  "name": "eventemitter3-timer",
-  "version": "1.0.0",
-  "description": "`EventEmitter3-Timer` is a plugin extend [EventEmitter3](https://github.com/primus/eventemitter3) to create time events easily.",
-  "main": "./lib/index.js",
-  "typings": "./lib/Timer.d.ts",
-  "author": "Shen Yiming<soimy@163.com> (http://symis.me)",
-  "license": "MIT",
-  "keywords": [
-    "eventemitter3",
-    "pixi",
-    "timermanager",
-    "timeline",
-    "timer",
-    "schedule",
-    "time",
-    "event"
-  ],
-  "homepage": "https://soimy.github.io/eventemitter3-timer",
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/soimy/eventemitter3-timer.git"
-  },
-  "scripts": {
-    "clean": "rimraf doc lib",
-    "build": "tsc",
-    "build:watch": "tsc --watch",
-    "build:doc": "typedoc --out docs/ src/ && touch docs/.nojekyll",
-    "build:webpack": "webpack --config webpack.config.js --display 'verbose' --progress --profile",
-    "test": "mocha --require ts-node/register --reporter spec test/**/*.ts",
-    "cover": "node_modules/istanbul/lib/cli.js cover node_modules/mocha/bin/_mocha -- --require ts-node/register -R spec --timeout 30000 test/**/*.ts"
-  },
-  "devDependencies": {
-    "@types/chai": "^4.0.10",
-    "@types/mocha": "^2.2.44",
-    "@types/node": "^9.4.6",
-    "awesome-typescript-loader": "^3.4.1",
-    "chai": "^4.1.1",
-    "coveralls": "^3.0.0",
-    "istanbul": "^0.4.5",
-    "mocha": "^5.0.1",
-    "rimraf": "^2.6.2",
-    "source-map-loader": "^0.2.3",
-    "ts-node": "^4.0.2",
-    "tslint": "^5.8.0",
-    "tslint-config-standard": "^7.0.0",
-    "typedoc": "^0.10.0",
-    "typescript": "^2.6.2",
-    "webpack": "^3.11.0"
-  },
-  "dependencies": {
-    "eventemitter3": "^3.0.1"
-  }
+    "name": "eventemitter3-timer",
+    "version": "1.0.0",
+    "description": "`EventEmitter3-Timer` is a plugin extend [EventEmitter3](https://github.com/primus/eventemitter3) to create time events easily.",
+    "main": "./dist/eventemitter3-timer.js",
+    "typings": "./dist/eventemitter3-timer.d.ts",
+    "author": "Shen Yiming<soimy@163.com> (http://symis.me)",
+    "license": "MIT",
+    "keywords": [
+        "eventemitter3",
+        "pixi",
+        "timermanager",
+        "timeline",
+        "timer",
+        "schedule",
+        "time",
+        "event"
+    ],
+    "homepage": "https://soimy.github.io/eventemitter3-timer",
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/soimy/eventemitter3-timer.git"
+    },
+    "scripts": {
+        "clean": "rimraf dist",
+        "clean:doc": "rimraf docs",
+        "clean:all": "rimraf dist docs",
+        "build": "webpack --config webpack.config.js --display 'verbose' --progress",
+        "build:doc": "typedoc --out docs/ src/ && touch docs/.nojekyll",
+        "build:all": "npm run clean:all && npm run build && npm run build:doc",
+        "test": "mocha --require ts-node/register --reporter spec test/**/*.ts",
+        "cover": "node_modules/istanbul/lib/cli.js cover node_modules/mocha/bin/_mocha -- --require ts-node/register -R spec --timeout 30000 test/**/*.ts"
+    },
+    "devDependencies": {
+        "@types/chai": "^4.0.10",
+        "@types/mocha": "^2.2.44",
+        "@types/node": "^9.4.6",
+        "awesome-typescript-loader": "^3.4.1",
+        "chai": "^4.1.1",
+        "coveralls": "^3.0.0",
+        "dts-bundle": "^0.7.3",
+        "istanbul": "^0.4.5",
+        "mocha": "^5.0.1",
+        "rimraf": "^2.6.2",
+        "source-map-loader": "^0.2.3",
+        "ts-node": "^4.0.2",
+        "tslint": "^5.8.0",
+        "tslint-config-standard": "^7.0.0",
+        "typedoc": "^0.10.0",
+        "typescript": "^2.6.2",
+        "webpack": "^3.11.0"
+    },
+    "dependencies": {
+        "eventemitter3": "^3.0.1"
+    }
 }
