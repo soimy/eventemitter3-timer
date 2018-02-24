@@ -1,4 +1,4 @@
-import { Timer, TimerManager } from "../lib/index";
+import { Timer, TimerManager } from "../dist/eventemitter3-timer";
 import { expect } from "chai";
 
 describe("Timer", () => {

@@ -1,27 +1,38 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-  <meta charset="UTF-8">
-  <title>Pixi.js Test</title>
-  <script src="https://pixijs.download/v4.7.0/pixi.min.js"></script>
-  <script src="build/eventemitter3-timer.js"></script>
+    <meta charset="UTF-8">
+    <title>Pixi.js Test</title>
+    <script src="https://pixijs.download/v4.7.0/pixi.min.js"></script>
+    <script src="../dist/eventemitter3-timer.min.js"></script>
 </head>
+
 <body>
-  <script>
-    var app = new PIXI.Application(800,600);
-    document.body.appendChild(app.view);
+    <script>
+        var app = new PIXI.Application(800, 600);
+        document.body.appendChild(app.view);
 
-    var timer = new ee3timer.Timer(1000);
-    timer.repeat = 15;
-    timer.on('start', function(elapsed){console.log('start')});
-    timer.on('end', function(elapsed){console.log('end', elapsed)});
-    timer.on('repeat', function(elapsed, repeat){console.log('repeat', repeat)});
-    timer.on('stop', function(elapsed){console.log('stop')});
+        var timer = new EE3Timer.Timer(1000);
+        timer.repeat = 15;
+        timer.on('start', function(elapsed) {
+            console.log('start')
+        });
+        timer.on('end', function(elapsed) {
+            console.log('end', elapsed)
+        });
+        timer.on('repeat', function(elapsed, repeat) {
+            console.log('repeat', repeat)
+        });
+        timer.on('stop', function(elapsed) {
+            console.log('stop')
+        });
 
-    timer.start();
-    app.ticker.add(function(){
-      timer.timerManager.update(app.ticker.elapsedMS);
-    }, this);
-  </script>
+        timer.start();
+        app.ticker.add(function() {
+            timer.timerManager.update(app.ticker.elapsedMS);
+        }, this);
+    </script>
 </body>
+
 </html>
