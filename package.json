@@ -25,7 +25,7 @@
         "clean": "rimraf dist",
         "clean:doc": "rimraf docs",
         "clean:all": "rimraf dist docs",
-        "build": "webpack --config webpack.config.js --display 'verbose' --progress",
+        "build": "npm run clean && webpack --config webpack.config.js --display 'verbose' --progress",
         "build:doc": "typedoc --out docs/ src/ && touch docs/.nojekyll",
         "build:all": "npm run clean:all && npm run build && npm run build:doc",
         "test": "mocha --require ts-node/register --reporter spec test/**/*.ts",
@@ -48,7 +48,8 @@
         "tslint-config-standard": "^7.0.0",
         "typedoc": "^0.10.0",
         "typescript": "^2.6.2",
-        "webpack": "^3.11.0"
+        "webpack": "^3.11.0",
+        "webpack-node-externals": "^1.6.0"
     },
     "dependencies": {
         "eventemitter3": "^3.0.1"

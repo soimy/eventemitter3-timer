@@ -5,6 +5,7 @@
 // after https://github.com/webpack/webpack/issues/3460 will be resolved.
 const { CheckerPlugin } = require('awesome-typescript-loader')
 const webpack = require('webpack');
+const nodeExternals = require('webpack-node-externals');
 const path = require('path');
 
 const PLUGIN_NAME = require('./package.json').name;
@@ -14,12 +15,37 @@ ENTRY[PLUGIN_NAME] = path.join(__dirname, 'src', 'index.ts');
 ENTRY[PLUGIN_NAME + '.min'] = path.join(__dirname, 'src', 'index.ts');
 const EXTERNALS = {};
 
-module.exports = {
+module.exports = [{
     devtool: 'source-map',
-    entry: ENTRY,
+    entry: path.join(__dirname, 'src', 'index.ts'),
     output: {
         path: DIST_PATH,
-        filename: '[name].js',
+        filename: PLUGIN_NAME + '.js',
+        library: 'EE3Timer',
+        libraryTarget: 'umd'
+    },
+    resolve: {
+        extensions: [".js", ".ts"]
+    },
+    stats: "verbose",
+    module: {
+        loaders: [{
+            test: /\.tsx?$/,
+            loader: 'awesome-typescript-loader',
+            exclude: /node_modules/
+        }]
+    },
+    plugins: [
+        new CheckerPlugin(),
+        new DtsBundlePlugin()
+    ],
+    externals: [nodeExternals()]
+}, {
+    devtool: 'source-map',
+    entry: path.join(__dirname, 'src', 'index.ts'),
+    output: {
+        path: DIST_PATH,
+        filename: PLUGIN_NAME + '.min.js',
         library: 'EE3Timer',
         libraryTarget: 'umd'
     },
@@ -37,12 +63,9 @@ module.exports = {
     plugins: [
         new CheckerPlugin(),
         new DtsBundlePlugin(),
-        new webpack.optimize.UglifyJsPlugin({
-            include: /\.min\.js$/,
-            minimize: true
-        })
+        new webpack.optimize.UglifyJsPlugin({ minimize: true })
     ]
-};
+}];
 
 function DtsBundlePlugin() {}
 DtsBundlePlugin.prototype.apply = function(compiler) {
