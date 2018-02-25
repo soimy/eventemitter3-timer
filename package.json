@@ -26,7 +26,7 @@
         "clean:doc": "rimraf docs",
         "clean:all": "rimraf dist docs",
         "build": "npm run clean && webpack --config webpack.config.js --display 'verbose' --progress",
-        "build:doc": "typedoc --out docs/ src/ && touch docs/.nojekyll",
+        "build:doc": "npm run clean:doc && typedoc --theme minimal --out docs/ src/ && touch docs/.nojekyll",
         "build:all": "npm run clean:all && npm run build && npm run build:doc",
         "test": "mocha --require ts-node/register --reporter spec test/**/*.ts",
         "cover": "node_modules/istanbul/lib/cli.js cover node_modules/mocha/bin/_mocha -- --require ts-node/register -R spec --timeout 30000 test/**/*.ts"
