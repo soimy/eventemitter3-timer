@@ -1,6 +1,6 @@
 {
     "name": "eventemitter3-timer",
-    "version": "1.0.0",
+    "version": "1.0.1",
     "description": "`EventEmitter3-Timer` is a plugin extend [EventEmitter3](https://github.com/primus/eventemitter3) to create time events easily.",
     "main": "./dist/eventemitter3-timer.js",
     "typings": "./dist/eventemitter3-timer.d.ts",
