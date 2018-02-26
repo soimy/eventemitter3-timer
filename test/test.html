@@ -2,37 +2,49 @@
 <html lang="en">
 
 <head>
-    <meta charset="UTF-8">
-    <title>Pixi.js Test</title>
-    <script src="https://pixijs.download/v4.7.0/pixi.min.js"></script>
-    <script src="../dist/eventemitter3-timer.min.js"></script>
+  <meta charset="UTF-8">
+  <title>Pixi.js Test</title>
+  <script src="https://pixijs.download/v4.7.0/pixi.min.js"></script>
+  <script src="../dist/eventemitter3-timer.min.js"></script>
 </head>
 
-<body>
-    <script>
-        var app = new PIXI.Application(800, 600);
-        document.body.appendChild(app.view);
-
-        var timer = new EE3Timer.Timer(1000);
-        timer.repeat = 15;
-        timer.on('start', function(elapsed) {
-            console.log('start')
-        });
-        timer.on('end', function(elapsed) {
-            console.log('end', elapsed)
-        });
-        timer.on('repeat', function(elapsed, repeat) {
-            console.log('repeat', repeat)
-        });
-        timer.on('stop', function(elapsed) {
-            console.log('stop')
-        });
-
-        timer.start();
-        app.ticker.add(function() {
-            timer.timerManager.update(app.ticker.elapsedMS);
-        }, this);
-    </script>
+<body style="height: 100%; margin: 0px; padding: 0px">
+  <script>
+    const app = new PIXI.Application(300, 300);
+    document.body.appendChild(app.view);
+    
+    let countdown = 15;
+    
+    const rect = new PIXI.Graphics();
+    rect.beginFill(0xff1010).drawRect(0, 0, 200, 30).endFill();
+    rect.position.set(app.screen.width / 2 - 100, app.screen.height / 2 - 15);
+    app.stage.addChild(rect);
+    
+    const txt = new PIXI.Text('15', {fontFamily : 'Arial', fontSize: 24, fill : 0xffffff, align : 'center'});
+    txt.anchor.set(0.5);
+    app.stage.addChild(txt);
+    txt.position.set(app.screen.width / 2, app.screen.height / 2);
+    
+    const timer = new EE3Timer.Timer(1000);
+    timer.repeat = countdown;
+    timer.on('start', elapsed => { console.log('start'); });
+    timer.on('end', elapsed => {
+      console.log('end', elapsed);
+      txt.text = 'Countdown End';
+    });
+    timer.on('repeat', (elapsed, repeat) => {
+      console.log('repeat', repeat);
+      countdown --;
+      txt.text = countdown;
+      rect.scale.x = countdown / 15;
+    });
+    timer.on('stop', elapsed => { console.log('stop'); });
+    
+    timer.start();
+    app.ticker.add(() => {
+      timer.timerManager.update(app.ticker.elapsedMS);
+    }, this);
+  </script>
 </body>
 
 </html>
