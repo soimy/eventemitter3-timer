@@ -1,5 +1,6 @@
-import { Timer, TimerManager } from "../dist/eventemitter3-timer";
+import { Timer, TimerManager } from "../src/index";
 import { expect } from "chai";
+import "mocha";
 
 describe("Timer", () => {
     const manager: TimerManager = Timer.timerManager;
@@ -123,7 +124,7 @@ describe("Timer", () => {
             timer.delay = 0;
             timer.reset();
             timer.start();
-            timer.timerManager.update(500);
+            if (timer.timerManager) timer.timerManager.update(500);
             expect(timer.timerManager).to.equal(null);
         });
     });

@@ -62,7 +62,6 @@ module.exports = [{
     },
     plugins: [
         new CheckerPlugin(),
-        new DtsBundlePlugin(),
         new webpack.optimize.UglifyJsPlugin({ minimize: true })
     ]
 }];
@@ -74,10 +73,11 @@ DtsBundlePlugin.prototype.apply = function(compiler) {
 
         dts.bundle({
             name: PLUGIN_NAME,
-            main: path.join(DIST_PATH, '**/*.d.ts'),
+            main: path.join(DIST_PATH, 'index.d.ts'),
             out: PLUGIN_NAME + '.d.ts',
             removeSource: true,
-            outputAsModuleFolder: true // to use npm in-package typings
+            outputAsModuleFolder: true, // to use npm in-package typings
+            verbose: true
         });
     });
 };

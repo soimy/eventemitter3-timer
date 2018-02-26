@@ -97,7 +97,7 @@ var eventemitter3_1 = __webpack_require__(3);
  *
  * Auther: Shen Yiming(soimy@163.com)
  *
- * Repo: https://github.com/soimy/pixi-timer
+ * Repo: https://github.com/soimy/eventemitter3-timer
  *
  * @export
  * @class Timer

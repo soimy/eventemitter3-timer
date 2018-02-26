@@ -1,5 +1,6 @@
-import { Timer, TimerManager } from "../dist/eventemitter3-timer";
+import { Timer, TimerManager } from "../src/index";
 import { expect } from "chai";
+import "mocha";
 
 describe("TimerManager", () => {
     const manager: TimerManager = new TimerManager();

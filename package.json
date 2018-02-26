@@ -28,8 +28,8 @@
         "build": "npm run clean && webpack --config webpack.config.js --display 'verbose' --progress",
         "build:doc": "npm run clean:doc && typedoc --theme minimal --out docs/ src/ && touch docs/.nojekyll",
         "build:all": "npm run clean:all && npm run build && npm run build:doc",
-        "test": "mocha --require ts-node/register --reporter spec test/**/*.ts",
-        "cover": "node_modules/istanbul/lib/cli.js cover node_modules/mocha/bin/_mocha -- --require ts-node/register -R spec --timeout 30000 test/**/*.ts"
+        "test": "mocha-webpack",
+        "cover": "cross-env NODE_ENV=coverage nyc --reporter=lcov --reporter=text npm run test && rimraf .nyc_output"
     },
     "devDependencies": {
         "@types/chai": "^4.0.10",
@@ -38,9 +38,13 @@
         "awesome-typescript-loader": "^3.4.1",
         "chai": "^4.1.1",
         "coveralls": "^3.0.0",
+        "cross-env": "^5.1.3",
         "dts-bundle": "^0.7.3",
         "istanbul": "^0.4.5",
+        "istanbul-instrumenter-loader": "^3.0.0",
         "mocha": "^5.0.1",
+        "mocha-webpack": "^1.0.1",
+        "nyc": "^11.4.1",
         "rimraf": "^2.6.2",
         "source-map-loader": "^0.2.3",
         "ts-node": "^4.0.2",
@@ -53,5 +57,13 @@
     },
     "dependencies": {
         "eventemitter3": "^3.0.1"
+    },
+    "nyc": {
+        "include": [
+            "src/**/*.js",
+            "src/**/*.ts"
+        ],
+        "instrument": false,
+        "sourceMap": false
     }
 }

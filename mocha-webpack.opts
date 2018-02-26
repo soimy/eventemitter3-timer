@@ -1,0 +1,3 @@
+--colors
+--webpack-config webpack.test.js
+"test/**/*.spec.ts"
