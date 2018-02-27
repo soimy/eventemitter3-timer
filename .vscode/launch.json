@@ -33,6 +33,14 @@
                 "${workspaceRoot}/test/*.spec.ts"
             ],
             "internalConsoleOptions": "openOnSessionStart"
+        },
+        {
+            "type": "node",
+            "request": "launch",
+            "name": "Mocha-webpack Tests",
+            "program": "${workspaceRoot}/node_modules/mocha-webpack/bin/mocha-webpack",
+            "sourceMaps": true,
+            "internalConsoleOptions": "openOnSessionStart"
         }
     ]
 }
