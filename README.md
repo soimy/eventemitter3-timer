@@ -1,6 +1,7 @@
 EventEmitter3-Timer
 ======================
 
+[![npm version](https://badge.fury.io/js/eventemitter3-timer.svg)](https://badge.fury.io/js/eventemitter3-timer)
 [![Build Status](https://travis-ci.org/soimy/eventemitter3-timer.svg?branch=master)](https://travis-ci.org/soimy/eventemitter3-timer)
 [![Coverage Status](https://coveralls.io/repos/github/soimy/eventemitter3-timer/badge.svg?branch=master)](https://coveralls.io/github/soimy/eventemitter3-timer?branch=master)
 [![TypeScript definitions on DefinitelyTyped](http://definitelytyped.org/badges/standard-flat.svg)](http://definitelytyped.org)
