@@ -3,10 +3,8 @@ import { expect } from "chai";
 import "mocha";
 
 describe("Timer", () => {
-    const manager: TimerManager = Timer.timerManager;
-
     context("#Timer add & delete", () => {
-
+        const manager: TimerManager = Timer.timerManager;
         const timers: Timer[] = [];
         let num = 10;
         let prevNum: number;
@@ -45,17 +43,25 @@ describe("Timer", () => {
 
     context("#Timer functionalities", () => {
         const timer = new Timer(1000);
+        const manager = timer.timerManager;
         let started: boolean = false;
         let ended: boolean = false;
+        let stoped: boolean = false;
         let repeated: number = 0;
         let _delta: number = 0;
         let _elapsed: number = 0;
-        timer.on("start", () => started = true);
+        timer.on("start", () => {
+            started = true;
+            ended = false;
+            stoped = false;
+            repeated = 0;
+        });
         timer.on("update", (elapsed, delta) => {
             _delta = delta;
             _elapsed = elapsed;
         });
         timer.on("repeat", (elapsed, repeat) => repeated = repeat);
+        timer.on("stop", elapsed => stoped = true);
         timer.on("end", elapsed => {
             ended = true;
             _elapsed = elapsed;
@@ -64,6 +70,7 @@ describe("Timer", () => {
         it("Timer is started", () => {
             timer.start();
             timer.update(500);
+            expect(manager).to.not.equal(null);
             expect(started).to.equal(true);
             expect(timer.isStarted).to.equal(true);
             expect(ended).to.equal(false);
@@ -98,8 +105,7 @@ describe("Timer", () => {
             expect(timer.active).to.equal(true);
             timer.loop = false;
             timer.repeat = 5;
-            timer.reset();
-            timer.start();
+            timer.reset().start();
             for (let i = 0; i < 10; i++) {
                 timer.update(500);
             }
@@ -109,14 +115,25 @@ describe("Timer", () => {
 
         it("Timer is delayed", () => {
             timer.repeat = 0;
-            timer.reset();
             timer.delay = 500;
-            timer.start();
+            timer.reset().start();
             timer.update(500);
             expect(timer.active).to.equal(true);
             expect(timer.isEnded).to.equal(false);
             timer.update(500);
             expect(timer.isEnded).to.equal(true);
+        });
+
+        it("Timer is stoped", () => {
+            timer.delay = 0;
+            timer.reset().start();
+            timer.update(200);
+            timer.stop();
+            expect(timer.active).to.equal(false);
+            expect(timer.isEnded).to.equal(false);
+            timer.update(300);
+            expect(timer.isEnded).to.equal(false);
+            expect(stoped).to.equal(true);
         });
 
         it("Timer can be expired", () => {

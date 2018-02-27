@@ -149,7 +149,7 @@ export class Timer extends EventEmitter {
     /**
      * Start timer from it's current time.
      *
-     * A `started` event will be emitted.
+     * A `start` event will be emitted.
      *
      * @returns {Timer} Return self for chainable method.
      * @memberof Timer
@@ -160,9 +160,9 @@ export class Timer extends EventEmitter {
     }
 
     /**
-     * Stop timer, current time stop updated.
+     * Pause timer, current time stop updated.
      *
-     * A `ended` event will be emitted.
+     * A `stop` event will be emitted.
      *
      * @returns {Timer} Return self for chainable method.
      * @memberof Timer

@@ -31,7 +31,6 @@
                 "100000",
                 "--colors",
                 "${workspaceRoot}/test/*.spec.ts"
-                // "${workspaceRoot}/test/maxrects_bin.spec.js"
             ],
             "internalConsoleOptions": "openOnSessionStart"
         }

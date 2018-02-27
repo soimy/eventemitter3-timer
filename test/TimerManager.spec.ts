@@ -52,6 +52,7 @@ describe("TimerManager", () => {
 
         it("Remove timers to this manager", () => {
             manager.removeTimer(timers[0]);
+            manager.update();
             timers.forEach(timer => {
                 timer.reset();
                 timer.start();
