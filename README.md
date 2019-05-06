@@ -36,7 +36,7 @@ timer.on("end", () => {
 timer.start();
 
 //increment timer in ticker loop
-app.ticker.add(() => Timer.timemanager.update(app.ticker.elapsedMS), this);
+app.ticker.add(() => Timer.timeManager.update(app.ticker.elapsedMS), this);
 
 ```
 
@@ -56,7 +56,7 @@ timer.on("end", () => {
 timer.start();
 
 //increment timer in ticker loop
-app.ticker.add(() => Timer.timemanager.update(app.ticker.elapsedMS), this);
+app.ticker.add(() => EE3Timer.Timer.timeManager.update(app.ticker.elapsedMS), this);
 
 ```
 
